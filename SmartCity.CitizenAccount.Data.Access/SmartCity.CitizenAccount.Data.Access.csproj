@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20210830123719_AddDefaultValueToPaymentBillAmountProperty.cs" />
+    <Compile Remove="Migrations\20210830123719_AddDefaultValueToPaymentBillAmountProperty.Designer.cs" />
+    <Compile Remove="Migrations\20210830124140_AddColumnTypeToPaymentBillAmountProperty.cs" />
+    <Compile Remove="Migrations\20210830124140_AddColumnTypeToPaymentBillAmountProperty.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.16" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SmartCity.CitizenAccount.Data.Models\SmartCity.CitizenAccount.Data.Models.csproj" />
+  </ItemGroup>
+
+</Project>
