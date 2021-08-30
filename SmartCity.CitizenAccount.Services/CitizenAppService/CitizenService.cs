@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using SmartCity.CitizenAccount.Api.Common.Exceptions;
 using SmartCity.CitizenAccount.Api.Models.Citizens;
 using SmartCity.CitizenAccount.Data.Access.DAL.Repositories;
 using SmartCity.CitizenAccount.Data.Models;
@@ -39,7 +40,7 @@ namespace SmartCity.CitizenAccount.Services.CitizenAppService
 
             if (citizen == null)
             {
-                throw new DllNotFoundException("Citizen is not found");
+                throw new NotFoundException("Citizen is not found");
             }
 
             return _mapper.Map<CitizenModel>(citizen);
