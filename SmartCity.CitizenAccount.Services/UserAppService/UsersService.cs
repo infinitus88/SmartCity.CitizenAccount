@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using SmartCity.CitizenAccount.Api.Common.Exceptions;
 using SmartCity.CitizenAccount.Api.Models.Users;
 using SmartCity.CitizenAccount.Data.Access.DAL.Repositories;
+using SmartCity.CitizenAccount.Data.Access.Helpers;
 using SmartCity.CitizenAccount.Data.Models;
 using System;
 using System.Collections.Generic;
@@ -58,6 +59,7 @@ namespace SmartCity.CitizenAccount.Services.UserAppService
             }
 
             var user = _mapper.Map<User>(model);
+            user.Password = user.Password.WithBCrypt();
 
             _repository.Add(user);
             await _repository.SaveAsync();
@@ -74,10 +76,10 @@ namespace SmartCity.CitizenAccount.Services.UserAppService
                 throw new NotFoundException("User is not found");
             }
 
-            if (GetQuery().Any(x => x.Email == model.Email))
-            {
-                throw new BadRequestException("The email is already in use");
-            }
+            //if (GetQuery().Any(x => x.Email == model.Email))
+            //{
+            //    throw new BadRequestException("The email is already in use");
+            //}
 
             user.Email = model.Email;
             user.DisplayName = model.DisplayName;
@@ -108,7 +110,7 @@ namespace SmartCity.CitizenAccount.Services.UserAppService
         public async Task ChangePassword(int id, ChangeUserPasswordModel model)
         {
             var user = Get(id);
-            user.Password = model.Password;
+            user.Password = model.Password.Trim().WithBCrypt();
             await _repository.SaveAsync();
         }
     }

@@ -16,7 +16,7 @@ using Xunit;
 
 namespace SmartCity.CitizenAccount.Services.Tests
 {
-    public class CitizenServiceTests
+    public class CitizensServiceTests
     {
         private Mock<IGenericRepository> _repository;
         private List<Citizen> _citizenList;
@@ -24,7 +24,7 @@ namespace SmartCity.CitizenAccount.Services.Tests
         private Random _random;
         private IMapper _mapper;
 
-        public CitizenServiceTests()
+        public CitizensServiceTests()
         {
             _random = new Random();
             _repository = new Mock<IGenericRepository>();

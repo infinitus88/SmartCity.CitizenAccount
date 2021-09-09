@@ -29,9 +29,26 @@ namespace SmartCity.CitizenAccount.Maps
             CreateMap<User, UserModel>()
                 .ForMember(dest => dest.UId, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.PhotoURL, opt => opt.MapFrom(src => src.PhotoUrl));
-            CreateMap<CreateUserModel, User>();
+            CreateMap<CreateUserModel, User>().AfterMap<TrimAllStringProperties>();
 
+            // Auth
             CreateMap<UserWithToken, UserWithTokenModel>();
+        }
+    }
+
+    internal class TrimAllStringProperties : IMappingAction<object, object>
+    {
+        public void Process(object source, object destination, ResolutionContext context)
+        {
+            var stringProperties = destination.GetType().GetProperties().Where(p => p.PropertyType == typeof(string));
+            foreach (var stringProperty in stringProperties)
+            {
+                string currentValue = (string)stringProperty.GetValue(destination, null);
+                if (currentValue != null)
+                {
+                    stringProperty.SetValue(destination, currentValue.Trim(), null);
+                }
+            }
         }
     }
 }

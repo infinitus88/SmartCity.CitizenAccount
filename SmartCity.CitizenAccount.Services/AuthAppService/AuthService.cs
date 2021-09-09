@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using SmartCity.CitizenAccount.Api.Common.Exceptions;
 using SmartCity.CitizenAccount.Data.Access.Common;
+using SmartCity.CitizenAccount.Data.Access.Helpers;
 
 namespace SmartCity.CitizenAccount.Services.AuthAppService
 {
@@ -43,7 +44,7 @@ namespace SmartCity.CitizenAccount.Services.AuthAppService
                 throw new BadRequestException("email/password aren't right");
             }
 
-            if (string.IsNullOrWhiteSpace(password) || !user.Password.Equals(password))
+            if (string.IsNullOrWhiteSpace(password) || !user.Password.VerifyWithBCrypt(password))
             {
                 throw new BadRequestException("email/password aren't right");
             }
