@@ -1,4 +1,4 @@
-using AutoMapper;
+    using AutoMapper;
 using FluentAssertions;
 using Moq;
 using SmartCity.CitizenAccount.Api.Common.Exceptions;
@@ -42,7 +42,7 @@ namespace SmartCity.CitizenAccount.Services.Tests
         }
 
         [Fact]
-        public void GetAllCitizensShouldReturnAll()
+        public void GetShouldReturnAll()
         {
             _citizenList.Add(new Citizen { Id = Guid.NewGuid().ToString() });
 
@@ -51,7 +51,7 @@ namespace SmartCity.CitizenAccount.Services.Tests
         }
 
         [Fact]
-        public void GetCitizenByIdShouldReturnItemById()
+        public void GetShouldReturnCitizenById()
         {
             var citizen = new Citizen {
                 Id = Guid.NewGuid().ToString()
