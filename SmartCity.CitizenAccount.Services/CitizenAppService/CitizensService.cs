@@ -6,16 +6,17 @@ using SmartCity.CitizenAccount.Data.Access.DAL.Repositories;
 using SmartCity.CitizenAccount.Data.Models;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace SmartCity.CitizenAccount.Services.CitizenAppService
 {
-    public class CitizenService : ICitizenService
+    public class CitizensService : ICitizensService
     {
         private readonly IGenericRepository _repository;
         private readonly IMapper _mapper;
 
 
-        public CitizenService(IGenericRepository repository, IMapper mapper)
+        public CitizensService(IGenericRepository repository, IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;
@@ -27,14 +28,14 @@ namespace SmartCity.CitizenAccount.Services.CitizenAppService
             return query;
         }
 
-        public IQueryable<CitizenModel> GetAllCitizens()
+        public IQueryable<Citizen> Get()
         {
             var citizens = GetQuery();
 
-            return citizens.ProjectTo<CitizenModel>(_mapper.ConfigurationProvider);
+            return citizens;
         }
 
-        public CitizenModel GetCitizenById(string id)
+        public Citizen Get(string id)
         {
             var citizen = GetQuery().Where(c => c.Id == id).FirstOrDefault();
 
@@ -43,15 +44,17 @@ namespace SmartCity.CitizenAccount.Services.CitizenAppService
                 throw new NotFoundException("Citizen is not found");
             }
 
-            return _mapper.Map<CitizenModel>(citizen);
+            return citizen;
         }
 
-        public CitizenModel RegisterCitizen(RegisterCitizenModel input)
+        public async Task<Citizen> Create(CreateCitizenModel input)
         {
             var citizen = _mapper.Map<Citizen>(input);
             _repository.Add<Citizen>(citizen);
 
-            return _mapper.Map<CitizenModel>(citizen);
+            await _repository.SaveAsync();
+
+            return citizen;
         }
     }
 }

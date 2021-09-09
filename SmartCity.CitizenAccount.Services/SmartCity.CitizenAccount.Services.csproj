@@ -12,6 +12,7 @@
     <ProjectReference Include="..\SmartCity.CitizenAccount.Api.Common\SmartCity.CitizenAccount.Api.Common.csproj" />
     <ProjectReference Include="..\SmartCity.CitizenAccount.Api.Models\SmartCity.CitizenAccount.Api.Models.csproj" />
     <ProjectReference Include="..\SmartCity.CitizenAccount.Data.Access\SmartCity.CitizenAccount.Data.Access.csproj" />
+    <ProjectReference Include="..\SmartCity.CitizenAccount.Security\SmartCity.CitizenAccount.Security.csproj" />
   </ItemGroup>
 
 </Project>

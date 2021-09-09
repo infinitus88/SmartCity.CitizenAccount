@@ -1,8 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
@@ -20,11 +18,9 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\SmartCity.CitizenAccount.Api.Common\SmartCity.CitizenAccount.Api.Common.csproj" />
     <ProjectReference Include="..\SmartCity.CitizenAccount.Services\SmartCity.CitizenAccount.Services.csproj" />
     <ProjectReference Include="..\SmartCity.CitizenAccount\SmartCity.CitizenAccount.csproj" />
   </ItemGroup>
-
 </Project>

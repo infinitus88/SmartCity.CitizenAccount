@@ -20,7 +20,7 @@ namespace SmartCity.CitizenAccount.Services.Tests
     {
         private Mock<IGenericRepository> _repository;
         private List<Citizen> _citizenList;
-        private ICitizenService _service;
+        private ICitizensService _service;
         private Random _random;
         private IMapper _mapper;
 
@@ -38,7 +38,7 @@ namespace SmartCity.CitizenAccount.Services.Tests
             });
             _mapper = new Mapper(config);
 
-            _service = new CitizenService(_repository.Object, _mapper);
+            _service = new CitizensService(_repository.Object, _mapper);
         }
 
         [Fact]
@@ -46,7 +46,7 @@ namespace SmartCity.CitizenAccount.Services.Tests
         {
             _citizenList.Add(new Citizen { Id = Guid.NewGuid().ToString() });
 
-            var result = _service.GetAllCitizens().ToList();
+            var result = _service.Get().ToList();
             result.Count().Should().Be(1);
         }
 
@@ -58,20 +58,20 @@ namespace SmartCity.CitizenAccount.Services.Tests
             };
             _citizenList.Add(citizen);
 
-            var result = _service.GetCitizenById(citizen.Id);
-            result.Should().BeEquivalentTo(_mapper.Map<CitizenModel>(citizen));
+            var result = _service.Get(citizen.Id);
+            result.Should().BeEquivalentTo(citizen);
         }
 
         [Fact]
-        public void CreateShouldSaveNew()
+        public async Task CreateShouldSaveNew()
         {
-            var model = new RegisterCitizenModel
+            var model = new CreateCitizenModel
             {
                 FullName = "Rustam Minnikhanov",
                 DateOfBirth = DateTime.Now
             };
 
-            var result = _service.RegisterCitizen(model);
+            var result = await _service.Create(model);
 
             result.FullName.Should().Be(model.FullName);
             result.DateOfBirth.Should().Be(model.DateOfBirth);
@@ -86,7 +86,7 @@ namespace SmartCity.CitizenAccount.Services.Tests
 
             Action get = () =>
             {
-                _service.GetCitizenById(Guid.NewGuid().ToString());
+                _service.Get(Guid.NewGuid().ToString());
             };
 
             get.Should().Throw<NotFoundException>();

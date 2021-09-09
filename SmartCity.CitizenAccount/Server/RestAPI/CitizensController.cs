@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SmartCity.CitizenAccount.Api.Models.Citizens;
 using SmartCity.CitizenAccount.Services.CitizenAppService;
@@ -13,33 +15,35 @@ namespace SmartCity.CitizenAccount.Server.RestAPI
     [Route("api/[controller]")]
     public class CitizensController : ControllerBase
     {
-        private readonly ICitizenService _service;
+        private readonly ICitizensService _service;
+        private readonly IMapper _mapper;
 
-        public CitizensController(ICitizenService service)
+        public CitizensController(ICitizensService service, IMapper mapper)
         {
             _service = service;
+            _mapper = mapper;
         }
 
         [HttpGet]
         public IQueryable<CitizenModel> GetAll()
         {
-            var citizens = _service.GetAllCitizens();
+            var citizens = _service.Get();
 
-            return citizens;
+            return citizens.ProjectTo<CitizenModel>(_mapper.ConfigurationProvider);
         }
 
         [HttpGet("get/{id}")]
         public ActionResult<CitizenModel> GetCitizenById(string id)
         {
-            var citizen = _service.GetCitizenById(id);
+            var citizen = _service.Get(id);
 
             return Ok(citizen);
         }
 
         [HttpPost("register")]
-        public ActionResult<CitizenModel> RegisterCitizen([FromBody] RegisterCitizenModel input)
+        public ActionResult<CitizenModel> RegisterCitizen([FromBody] CreateCitizenModel input)
         {
-            var citizen = _service.RegisterCitizen(input);
+            var citizen = _service.Create(input);
 
             return new ObjectResult(citizen) { StatusCode = StatusCodes.Status201Created };
         }

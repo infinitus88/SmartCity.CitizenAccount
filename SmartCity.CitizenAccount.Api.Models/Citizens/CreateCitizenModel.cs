@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SmartCity.CitizenAccount.Api.Models.Citizens
 {
-    public class RegisterCitizenModel
+    public class CreateCitizenModel
     {
         public string FullName { get; set; }
         public DateTime DateOfBirth { get; set; }
