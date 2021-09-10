@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SmartCity.CitizenAccount.Data.Access.DAL;
 
 namespace SmartCity.CitizenAccount.Data.Access.Migrations
 {
     [DbContext(typeof(MainDbContext))]
-    partial class MainDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210909212149_AddEmailsTable")]
+    partial class AddEmailsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,6 +43,54 @@ namespace SmartCity.CitizenAccount.Data.Access.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Citizens");
+                });
+
+            modelBuilder.Entity("SmartCity.CitizenAccount.Data.Models.Email", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("IsStarred")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("MailFolder")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Sender")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SenderImg")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SenderName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Subject")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Time")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("To")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ToImg")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ToName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Unread")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Emails");
                 });
 
             modelBuilder.Entity("SmartCity.CitizenAccount.Data.Models.PaymentBill", b =>

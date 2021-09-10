@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using SmartCity.CitizenAccount.Api.Models.Citizens;
+using SmartCity.CitizenAccount.Api.Models.Emails;
 using SmartCity.CitizenAccount.Api.Models.Users;
 using SmartCity.CitizenAccount.Data.Access.Common;
 using SmartCity.CitizenAccount.Data.Models;
@@ -16,6 +17,7 @@ namespace SmartCity.CitizenAccount.Maps
         {
             CitizenMappings();
             UserMappings();
+            EmailMappings();
         }
 
         private void CitizenMappings()
@@ -33,6 +35,12 @@ namespace SmartCity.CitizenAccount.Maps
 
             // Auth
             CreateMap<UserWithToken, UserWithTokenModel>();
+        }
+
+        private void EmailMappings()
+        {
+            CreateMap<Email, EmailModel>()
+                .ForMember(dest => dest.MailFolder, opt => opt.Ignore());
         }
     }
 

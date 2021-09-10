@@ -36,7 +36,7 @@ namespace SmartCity.CitizenAccount.Server.RestAPI
         public async Task<UserWithTokenModel> Register([FromBody] RegisterModel model)
         {
             var newUser = await _service.Register(model);
-            var result = _service.Autheticate(newUser.Email, newUser.Password);
+            var result = _service.Autheticate(newUser.Email, model.Password);
             return _mapper.Map<UserWithTokenModel>(result);
         }
 

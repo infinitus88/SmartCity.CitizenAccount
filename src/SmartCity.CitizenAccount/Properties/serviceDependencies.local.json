@@ -1,0 +1,13 @@
+{
+  "dependencies": {
+    "secrets1": {
+      "type": "secrets.user"
+    },
+    "mssql1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/smartcitycitizenaccount1dbserver/databases/SmartCity.CitizenAccount_db1",
+      "type": "mssql.azure",
+      "connectionId": "Data:main",
+      "secretStore": "LocalSecretsFile"
+    }
+  }
+}

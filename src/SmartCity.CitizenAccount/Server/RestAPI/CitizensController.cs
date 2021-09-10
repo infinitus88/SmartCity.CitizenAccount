@@ -41,11 +41,11 @@ namespace SmartCity.CitizenAccount.Server.RestAPI
         }
 
         [HttpPost("register")]
-        public ActionResult<CitizenModel> RegisterCitizen([FromBody] CreateCitizenModel input)
+        public async Task<CitizenModel> RegisterCitizen([FromBody] CreateCitizenModel input)
         {
-            var citizen = _service.Create(input);
+            var citizen = await _service.Create(input);
 
-            return new ObjectResult(citizen) { StatusCode = StatusCodes.Status201Created };
+            return _mapper.Map<CitizenModel>(citizen);
         }
     }
 }
