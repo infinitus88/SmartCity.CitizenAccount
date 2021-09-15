@@ -32,6 +32,7 @@ namespace SmartCity.CitizenAccount.Server.RestAPI
             return resultModel;
         }
 
+
         [HttpPost("register")]
         public async Task<UserWithTokenModel> Register([FromBody] RegisterModel model)
         {

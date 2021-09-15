@@ -6,7 +6,7 @@ namespace SmartCity.CitizenAccount.Api.Models.Emails
 {
     public class CreateEmailModel
     {
-        public string To { get; set; }
+        public string EmailAdress { get; set; }
         public string Subject { get; set; }
         public string Message { get; set; }
     }

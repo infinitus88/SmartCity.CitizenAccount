@@ -39,8 +39,16 @@ namespace SmartCity.CitizenAccount.Maps
 
         private void EmailMappings()
         {
-            CreateMap<Email, EmailModel>()
-                .ForMember(dest => dest.MailFolder, opt => opt.Ignore());
+            CreateMap<Email, EmailModel>();
+            CreateMap<CreateEmailModel, Email>();
+        }
+    }
+
+    internal class PrepareEmails : IMappingAction<object, object>
+    {
+        public void Process(object source, object destination, ResolutionContext context)
+        {
+            
         }
     }
 
