@@ -28,7 +28,7 @@ jobs:
         npm run build --if-present
     
     - name: Zip artifacts
-      run: zip -r smartcity-artifacts.zip
+      run: zip -r smartcity-artifacts.zip ./src/client
       
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v2
