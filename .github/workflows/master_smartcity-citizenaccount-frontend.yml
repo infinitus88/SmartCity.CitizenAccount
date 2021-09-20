@@ -59,4 +59,4 @@ jobs:
         app-name: 'smartcity-citizenaccount-frontend'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_bb6ed5a928f847b4ba6967ad77658098 }}
-        package: ./dist
+        package: ./src/client/dist
