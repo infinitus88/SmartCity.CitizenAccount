@@ -1,6 +1,6 @@
 <template>
-    <vs-chip class="ag-grid-cell-chip" :color="chipColor(params.value)">
-      <span>{{ params.value }}</span>
+    <vs-chip class="ag-grid-cell-chip" :color="chipTextAndColor(params.value)[1]">
+      <span>{{ chipTextAndColor(params.value)[0] }}</span>
     </vs-chip>
 </template>
 
@@ -8,12 +8,10 @@
 export default {
   name: 'CellRendererStatus',
   computed: {
-    chipColor () {
+    chipTextAndColor () {
       return (value) => {
-        if (value === 'active') return 'success'
-        else if (value === 'blocked') return 'danger'
-        else if (value === 'deactivated') return 'warning'
-        else return 'primary'
+        if (value === 1) return ['active', 'success']
+        else if (value === 0) return ['deactivated', 'warning']
       }
     }
   }

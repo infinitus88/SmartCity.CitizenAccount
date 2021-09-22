@@ -25,10 +25,6 @@
           <label class="text-sm opacity-75">Verified</label>
           <v-select :options="isVerifiedOptions" :clearable="false" :dir="$vs.rtl ? 'rtl' : 'ltr'" v-model="isVerifiedFilter" class="mb-4 sm:mb-0" />
         </div>
-        <div class="vx-col md:w-1/4 sm:w-1/2 w-full">
-          <label class="text-sm opacity-75">Department</label>
-          <v-select :options="departmentOptions" :clearable="false" :dir="$vs.rtl ? 'rtl' : 'ltr'" v-model="departmentFilter" />
-        </div>
       </div>
     </vx-card>
 
@@ -75,35 +71,12 @@
             </div>
 
             <vs-dropdown-menu>
-
               <vs-dropdown-item>
                 <span class="flex items-center">
                   <feather-icon icon="TrashIcon" svgClasses="h-4 w-4" class="mr-2" />
                   <span>Delete</span>
                 </span>
               </vs-dropdown-item>
-
-              <vs-dropdown-item>
-                <span class="flex items-center">
-                  <feather-icon icon="ArchiveIcon" svgClasses="h-4 w-4" class="mr-2" />
-                  <span>Archive</span>
-                </span>
-              </vs-dropdown-item>
-
-              <vs-dropdown-item>
-                <span class="flex items-center">
-                  <feather-icon icon="FileIcon" svgClasses="h-4 w-4" class="mr-2" />
-                  <span>Print</span>
-                </span>
-              </vs-dropdown-item>
-
-              <vs-dropdown-item>
-                <span class="flex items-center">
-                  <feather-icon icon="SaveIcon" svgClasses="h-4 w-4" class="mr-2" />
-                  <span>CSV</span>
-                </span>
-              </vs-dropdown-item>
-
             </vs-dropdown-menu>
           </vs-dropdown>
       </div>
@@ -151,6 +124,7 @@ import CellRendererLink from './cell-renderer/CellRendererLink.vue'
 import CellRendererStatus from './cell-renderer/CellRendererStatus.vue'
 import CellRendererVerified from './cell-renderer/CellRendererVerified.vue'
 import CellRendererActions from './cell-renderer/CellRendererActions.vue'
+import CellRendererBalance from './cell-renderer/CellRendererBalance.vue'
 
 
 export default {
@@ -162,7 +136,8 @@ export default {
     CellRendererLink,
     CellRendererStatus,
     CellRendererVerified,
-    CellRendererActions
+    CellRendererActions,
+    CellRendererBalance
   },
   data () {
     return {
@@ -172,16 +147,14 @@ export default {
       roleOptions: [
         { label: 'All', value: 'all' },
         { label: 'Admin', value: 'admin' },
-        { label: 'User', value: 'user' },
-        { label: 'Staff', value: 'staff' }
+        { label: 'User', value: 'user' }
       ],
 
       statusFilter: { label: 'All', value: 'all' },
       statusOptions: [
         { label: 'All', value: 'all' },
         { label: 'Active', value: 'active' },
-        { label: 'Deactivated', value: 'deactivated' },
-        { label: 'Blocked', value: 'blocked' }
+        { label: 'Deactivated', value: 'deactivated' }
       ],
 
       isVerifiedFilter: { label: 'All', value: 'all' },
@@ -189,14 +162,6 @@ export default {
         { label: 'All', value: 'all' },
         { label: 'Yes', value: 'yes' },
         { label: 'No', value: 'no' }
-      ],
-
-      departmentFilter: { label: 'All', value: 'all' },
-      departmentOptions: [
-        { label: 'All', value: 'all' },
-        { label: 'Sales', value: 'sales' },
-        { label: 'Development', value: 'development' },
-        { label: 'Management', value: 'management' }
       ],
 
       searchQuery: '',
@@ -220,11 +185,10 @@ export default {
           headerCheckboxSelection: true
         },
         {
-          headerName: 'Username',
-          field: 'username',
+          headerName: 'Name',
+          field: 'displayName',
           filter: true,
-          width: 210,
-          cellRendererFramework: 'CellRendererLink'
+          width: 200
         },
         {
           headerName: 'Email',
@@ -233,16 +197,11 @@ export default {
           width: 225
         },
         {
-          headerName: 'Name',
-          field: 'name',
+          headerName: 'Balance',
+          field: 'balance',
           filter: true,
-          width: 200
-        },
-        {
-          headerName: 'Country',
-          field: 'country',
-          filter: true,
-          width: 150
+          width: 125,
+          cellRendererFramework: 'CellRendererBalance'
         },
         {
           headerName: 'Role',
@@ -259,17 +218,11 @@ export default {
         },
         {
           headerName: 'Verified',
-          field: 'is_verified',
+          field: 'isVerified',
           filter: true,
           width: 125,
           cellRendererFramework: 'CellRendererVerified',
           cellClass: 'text-center'
-        },
-        {
-          headerName: 'Department',
-          field: 'department',
-          filter: true,
-          width: 150
         },
         {
           headerName: 'Actions',
@@ -297,10 +250,7 @@ export default {
     },
     isVerifiedFilter (obj) {
       const val = obj.value === 'all' ? 'all' : obj.value === 'yes' ? 'true' : 'false'
-      this.setColumnFilter('is_verified', val)
-    },
-    departmentFilter (obj) {
-      this.setColumnFilter('department', obj.value)
+      this.setColumnFilter('isVerified', val)
     }
   },
   computed: {
@@ -343,7 +293,7 @@ export default {
       this.gridApi.onFilterChanged()
 
       // Reset Filter Options
-      this.roleFilter = this.statusFilter = this.isVerifiedFilter = this.departmentFilter = { label: 'All', value: 'all' }
+      this.roleFilter = this.statusFilter = this.isVerifiedFilter = { label: 'All', value: 'all' }
 
       this.$refs.filterCard.removeRefreshAnimation()
     },
@@ -353,16 +303,6 @@ export default {
   },
   mounted () {
     this.gridApi = this.gridOptions.api
-
-    /* =================================================================
-      NOTE:
-      Header is not aligned properly in RTL version of agGrid table.
-      However, we given fix to this issue. If you want more robust solution please contact them at gitHub
-    ================================================================= */
-    if (this.$vs.rtl) {
-      const header = this.$refs.agGridTable.$el.querySelector('.ag-header-container')
-      header.style.left = `-${  String(Number(header.style.transform.slice(11, -3)) + 9)  }px`
-    }
   },
   created () {
     if (!moduleUserManagement.isRegistered) {
