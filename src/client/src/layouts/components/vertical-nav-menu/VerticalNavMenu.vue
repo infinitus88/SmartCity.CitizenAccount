@@ -55,7 +55,7 @@
           <template v-for="(item, index) in menuItemsUpdated">
 
             <!-- Group Header -->
-            <span v-if="item.header && !verticalNavMenuItemsMin" class="navigation-header truncate" :key="`header-${index}`">
+            <span v-if="item.header && !verticalNavMenuItemsMin && canSeeHeader(item.header)" class="navigation-header truncate" :key="`header-${index}`">
               {{ $t(item.i18n) || item.header }}
             </span>
             <!-- /Group Header -->
@@ -78,7 +78,8 @@
 
               <!-- Nav-Group -->
               <template v-else>
-                <v-nav-menu-group
+                <v-nav-menu-group 
+                  v-if="canSeeGroup(item.rule)"
                   :key="`group-${index}`"
                   :openHover="openGroupHover"
                   :group="item"
@@ -202,6 +203,17 @@ export default {
     windowWidth ()  { this.setVerticalNavMenuWidth() }
   },
   methods: {
+    canSeeGroup (ruleName) {
+      return ruleName === 'admin' ? this.$acl.check(ruleName) : true
+    },
+    canSeeHeader (headerName) {
+      console.log(headerName)
+      if (headerName === 'Admin') {
+        return this.$acl.check('admin')
+      }
+
+      return true
+    },
     onMenuSwipe (event) {
       if (event.direction === 4 && this.$vs.rtl) {
 

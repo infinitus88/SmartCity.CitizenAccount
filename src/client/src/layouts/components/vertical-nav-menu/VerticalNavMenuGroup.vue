@@ -55,11 +55,12 @@
 
           <!-- If item is group -->
           <v-nav-menu-group
-            v-if        = "groupItem.submenu"
-            :group      = "groupItem"
-            :groupIndex = "Number(`${groupIndex}.${index+1}`)"
-            :open       = "isGroupActive(groupItem)"
-            :openHover  = "openHover" />
+          v-if        = "groupItem.submenu"
+          :group      = "groupItem"
+          :groupIndex = "Number(`${groupIndex}.${index+1}`)"
+          :open       = "isGroupActive(groupItem)"
+          :openHover  = "openHover" />
+          
 
           <!-- Else: Item -->
           <v-nav-menu-item

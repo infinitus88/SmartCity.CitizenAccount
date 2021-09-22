@@ -228,6 +228,7 @@ export default {
     }
   },
   created () {
+    console.log(this.$acl)
     // Register Module UserManagement Module
     if (!moduleUserManagement.isRegistered) {
       this.$store.registerModule('userManagement', moduleUserManagement)

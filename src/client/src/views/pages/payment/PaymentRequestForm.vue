@@ -31,11 +31,10 @@
                 </div>
 
                 <div class="clearfix">
-                  <v-select name="citizen" class="w-full" v-model="citizenId" :options="options" label="title">
-                    <template v-slot:option="option">
-                      <div></div>
-                      <vs-avatar class="border-2 border-solid border-white" :src="photoUrl" size="40px"></vs-avatar>
-                      
+                  <v-select name="citizen" class="w-full" v-model="selectedCitizenId" :options="citizens" label="fullName">
+                    <template v-slot:option="citizen">
+                      <vs-avatar class="border-2 border-solid border-white" :src="citizen.photoUrl" size="40px"></vs-avatar>
+                      {{ citizen.fullName }}
                     </template>
                   </v-select>
 
@@ -43,28 +42,17 @@
                     v-validate="'required'"
                     type="number"
                     data-vv-validate-on="blur"
-                    label-placeholder="Name"
+                    label-placeholder="Amount"
                     name="displayName"
-                    placeholder="Name"
-                    v-model="displayName"
+                    placeholder="Amount"
+                    v-model="amount"
                     class="w-full"
                   />
 
-                  <vs-input
-                    type="password"
-                    data-vv-validate-on="blur"
-                    name="confirm_password"
-                    label-placeholder="Confirm Password"
-                    placeholder="Confirm Password"
-                    class="w-full mt-6"
-                  />
-
-                  <vs-button type="border" to="/pages/login" class="mt-6"
-                    >Login</vs-button
-                  >
                   <vs-button
                     class="float-right mt-6"
-                    >Register</vs-button
+                    @click="proceedPayment()"
+                    >Proceed</vs-button
                   >
                 </div>
               </div>
@@ -76,41 +64,52 @@
 
 <script>
 import vSelect from 'vue-select'
+import moduleCitizen from '@/store/citizen/moduleCitizen.js'
 
 export default {
 
 
   data () {
     return {
-      photoUrl: require('@/assets/images/portrait/small/avatar-s-5.jpg'),
-      displayName: '',
-      citizenId: '',
-      options: [
-        {
-          title: 'Read the Docs',
-          icon: 'fa-book',
-          url: 'https://codeclimate.com/github/sagalbot/vue-select'
-        },
-        {
-          title: 'View on GitHub',
-          icon: 'fa-github',
-          url: 'https://codeclimate.com/github/sagalbot/vue-select'
-        },
-        {
-          title: 'View on NPM',
-          icon: 'fa-database',
-          url: 'https://codeclimate.com/github/sagalbot/vue-select'
-        },
-        {
-          title: 'View Codepen Examples',
-          icon: 'fa-pencil',
-          url: 'https://codeclimate.com/github/sagalbot/vue-select'
-        }
-      ]
+      fullName: '',
+      selectedCitizenId: '',
+      amount: this.$route.query.amount,
+      orderId: this.$route.query.orderId,
+      serviceId: this.$route.query.serviceId
+    }
+  },
+  methods: {
+    clearFields () {
+      this.$nextTick(() => {
+        this.fullName = ''
+        this.amount = ''
+      })
+    },
+    proceedPayment () {
+      const payload = {
+        citizenId: this.selectedCitizenId,
+        amount: this.amount
+      }
+      this.$store.dispatch('citizen/proceedPayment', payload)
+
+      this.clearFields()
+    }
+  },
+  computed: {
+    citizens () {
+      return this.$store.getters['citizen/getCitizens']
     }
   },
   components: {
     vSelect
+  },
+  created () {
+    this.$store.registerModule('citizen', moduleCitizen)
+
+    this.$store.dispatch('citizen/fetchCitizens') // Fetch Citizens From API
+  },
+  beforeDestroy () {
+    this.$store.unregisterModule('citizen')
   }
 }
 </script>

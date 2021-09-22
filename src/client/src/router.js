@@ -95,7 +95,7 @@ const router = new Router({
               { title: 'List', active: true }
             ],
             pageTitle: 'User List',
-            rule: 'admin'
+            rule: 'user'
           }
         },
         {
@@ -109,7 +109,7 @@ const router = new Router({
               { title: 'View', active: true }
             ],
             pageTitle: 'User View',
-            rule: 'editor'
+            rule: 'admin'
           }
         },
         {
@@ -123,7 +123,7 @@ const router = new Router({
               { title: 'Edit', active: true }
             ],
             pageTitle: 'User Edit',
-            rule: 'editor'
+            rule: 'admin'
           }
         },
         // =============================================================================

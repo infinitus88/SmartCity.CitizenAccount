@@ -1,7 +1,7 @@
 // axios
 import axios from 'axios'
 
-const baseURL = 'http://smartcity-citizenaccount.azurewebsites.net'
+const baseURL = 'https://smartcity-citizenaccount.azurewebsites.net'
 
 export default axios.create({
   baseURL
