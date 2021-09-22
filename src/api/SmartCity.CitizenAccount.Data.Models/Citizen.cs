@@ -6,12 +6,16 @@ namespace SmartCity.CitizenAccount.Data.Models
     {
         public Citizen()
         {
+            PhotoUrl = Constants.Images.DefaultAvatar;
             RegistrationDate = DateTime.Now;
+            Balance = 0;
         }
 
         public string Id { get; set; }
         public string FullName { get; set; }
+        public string PhotoUrl { get; set; }
         public byte Sex { get; set; }
+        public decimal Balance { get; set; }
         public DateTime DateOfBirth { get; set; }
 
         public DateTime RegistrationDate { get; set; }

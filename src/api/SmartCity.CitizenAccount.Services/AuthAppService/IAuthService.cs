@@ -8,8 +8,9 @@ namespace SmartCity.CitizenAccount.Services.AuthAppService
 {
     public interface IAuthService
     {
-        UserWithToken Autheticate(string email, string password);
+        UserWithToken Authenticate(string email, string password);
         Task<User> Register(RegisterModel model);
         Task ChangePassword(ChangeUserPasswordModel model);
+        string RefreshToken();
     }
 }

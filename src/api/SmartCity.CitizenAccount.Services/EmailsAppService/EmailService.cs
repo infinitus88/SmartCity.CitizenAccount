@@ -28,6 +28,13 @@ namespace SmartCity.CitizenAccount.Services.EmailsAppService
             _context = context;
         }
 
+        private IQueryable<Email> GetQuery()
+        {
+            var query = _repository.Query<Email>();
+
+            return query;
+        }
+
         public IQueryable<Email> GetRelated()
         {
             var mails = _repository.Query<Email>().Where(m => m.UserId == _context.User.Id);
@@ -37,7 +44,7 @@ namespace SmartCity.CitizenAccount.Services.EmailsAppService
 
         public async Task<Email> Create(CreateEmailModel model)
         {
-            var recievingUser = _userService.Get().Where(u => u.Email == model.EmailAdress).FirstOrDefault();
+            var recievingUser = _userService.Get().Where(u => u.Email == model.EmailAddress).FirstOrDefault();
 
             if (recievingUser == null)
             {
@@ -49,7 +56,7 @@ namespace SmartCity.CitizenAccount.Services.EmailsAppService
                 UserId = _context.User.Id,
                 DisplayName = recievingUser.DisplayName,
                 PhotoUrl = recievingUser.PhotoUrl,
-                EmailAddress = model.EmailAdress,
+                EmailAddress = model.EmailAddress,
                 Subject = model.Subject,
                 Message = model.Message,
                 Folder = "sent",
@@ -77,9 +84,52 @@ namespace SmartCity.CitizenAccount.Services.EmailsAppService
             return recieversgMail;
         }
 
-        public Task<Email> UpdateFolder(int id, string folderName)
+        public async Task<Email> UpdateFolder(int id, string folderName)
         {
-            throw new NotImplementedException();
+            var mail = GetQuery().Where(m => m.Id == id).FirstOrDefault();
+
+            if (mail == null)
+            {
+                throw new NotFoundException("Email is not found");
+            }
+
+            mail.Folder = folderName;
+
+            await _repository.SaveAsync();
+
+            return mail;
+        }
+
+        public async Task<Email> SetStarred(int id, bool value)
+        {
+            var mail = GetQuery().Where(m => m.Id == id).FirstOrDefault();
+
+            if (mail == null)
+            {
+                throw new NotFoundException("Email is not found");
+            }
+
+            mail.IsStarred = value;
+
+            await _repository.SaveAsync();
+
+            return mail;
+        }
+
+        public async Task<Email> MarkUnread(int id, bool unreadFlag)
+        {
+            var mail = GetQuery().Where(m => m.Id == id).FirstOrDefault();
+
+            if (mail == null)
+            {
+                throw new NotFoundException("Email is not found");
+            }
+
+            mail.Unread = unreadFlag;
+
+            await _repository.SaveAsync();
+
+            return mail;
         }
 
         public IQueryable<Email> GetAll()
@@ -87,6 +137,17 @@ namespace SmartCity.CitizenAccount.Services.EmailsAppService
             var mails = _repository.Query<Email>();
 
             return mails;
+        }
+
+        public EmailsMetaModel GetMeta()
+        {
+            var mails = GetRelated().Where(m => m.Unread);
+            var emailsMeta = new EmailsMetaModel();
+
+            emailsMeta.Folder.Add("inbox", mails.Where(m => m.Folder == "inbox").Count());
+            emailsMeta.Folder.Add("trash", mails.Where(m => m.Folder == "trash").Count());
+
+            return emailsMeta;
         }
     }
 }

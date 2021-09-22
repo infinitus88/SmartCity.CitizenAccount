@@ -14,6 +14,11 @@ namespace SmartCity.CitizenAccount.Data.Access.Maps.Main
             var entity = builder.Entity<Citizen>();
             entity.ToTable("Citizens").HasKey(x => x.Id);
             entity.Property(x => x.Id).HasDefaultValueSql("NEWID()");
+
+            entity
+                .Property(x => x.Balance)
+                .HasColumnType("decimal(18,2)");
+
         }
     }
 }

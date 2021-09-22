@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SmartCity.CitizenAccount.Api.Models.Auth;
 using SmartCity.CitizenAccount.Api.Models.Users;
@@ -17,27 +18,29 @@ namespace SmartCity.CitizenAccount.Server.RestAPI
     {
         private readonly IAuthService _service;
         private readonly IMapper _mapper;
+        private readonly IHttpContextAccessor _contextAccessor;
 
-        public AuthController(IAuthService service, IMapper mapper)
+        public AuthController(IAuthService service, IMapper mapper, IHttpContextAccessor contextAccessor)
         {
             _service = service;
             _mapper = mapper;
+            _contextAccessor = contextAccessor;
         }
+
         [HttpPost("login")]
         public UserWithTokenModel Authenticate([FromBody] LoginModel model)
         {
-            var result = _service.Autheticate(model.Email, model.Password);
+            var result = _service.Authenticate(model.Email, model.Password);
             var resultModel = _mapper.Map<UserWithTokenModel>(result);
 
             return resultModel;
         }
 
-
         [HttpPost("register")]
         public async Task<UserWithTokenModel> Register([FromBody] RegisterModel model)
         {
             var newUser = await _service.Register(model);
-            var result = _service.Autheticate(newUser.Email, model.Password);
+            var result = _service.Authenticate(newUser.Email, model.Password);
             return _mapper.Map<UserWithTokenModel>(result);
         }
 
@@ -46,6 +49,15 @@ namespace SmartCity.CitizenAccount.Server.RestAPI
         public async Task ChangePassword([FromBody]ChangeUserPasswordModel model)
         {
             await _service.ChangePassword(model);
+        }
+
+        [HttpGet("refresh-token")]
+        [Authorize]
+        public ActionResult<RefreshTokenModel> RefreshToken()
+        {
+            string accessToken = _service.RefreshToken();
+
+            return Ok(new RefreshTokenModel { AccessToken = accessToken });
         }
     }
 }

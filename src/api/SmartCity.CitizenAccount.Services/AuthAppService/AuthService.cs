@@ -33,7 +33,7 @@ namespace SmartCity.CitizenAccount.Services.AuthAppService
             _random = new Random();
         }
 
-        public UserWithToken Autheticate(string email, string password)
+        public UserWithToken Authenticate(string email, string password)
         {
             var user = (from u in _repository.Query<User>()
                             where u.Email == email && !u.IsDeleted
@@ -75,6 +75,14 @@ namespace SmartCity.CitizenAccount.Services.AuthAppService
         public async Task ChangePassword(ChangeUserPasswordModel model)
         {
             await _usersService.ChangePassword(_context.User.Id, model);
+        }
+
+        public string RefreshToken()
+        {
+            var expiresIn = DateTime.Now + TokenAuthOption.ExpiresSpan;
+            var accessToken = _tokenBuilder.Build(_context.User.Email, _context.User.Role, expiresIn);
+
+            return accessToken;
         }
     }
 }

@@ -44,7 +44,7 @@ namespace SmartCity.CitizenAccount
                     builder
                     .AllowAnyHeader()
                     .AllowAnyMethod()
-                    .WithOrigins("https://localhost:8080");
+                    .AllowAnyOrigin();
                 });
             });
 

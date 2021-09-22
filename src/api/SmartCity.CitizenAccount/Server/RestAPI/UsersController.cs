@@ -36,7 +36,7 @@ namespace SmartCity.CitizenAccount.Server.RestAPI
             return users.ProjectTo<UserModel>(_mapper.ConfigurationProvider);
         }
 
-        [HttpPost("updateUserInfo")]
+        [HttpPost("update-user")]
         [Authorize]
         public async Task<UserInfoModel> UpdateUser([FromBody] UpdateUserInfoModel model)
         {

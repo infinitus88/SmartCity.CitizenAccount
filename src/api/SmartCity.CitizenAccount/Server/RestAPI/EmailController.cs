@@ -30,9 +30,27 @@ namespace SmartCity.CitizenAccount.Server.RestAPI
         [Authorize]
         public IQueryable<EmailModel> GetMails([FromQuery]string filter)
         {
-            var mails = _service.GetRelated().Where(m => m.Folder == filter);
+            var mails = _service.GetRelated();
+
+            if (filter == "starred")
+            {
+                mails = mails.Where(m => m.IsStarred);
+            } 
+            else
+            {
+                mails = mails.Where(m => m.Folder == filter);
+            }
 
             return mails.ProjectTo<EmailModel>(_mapper.ConfigurationProvider);
+        }
+
+        [Route("meta")]
+        [Authorize]
+        public EmailsMetaModel GetEmailsMeta()
+        {
+            var emailsMeta = _service.GetMeta();
+
+            return emailsMeta;
         }
 
         [Route("all-mails")]
@@ -43,13 +61,48 @@ namespace SmartCity.CitizenAccount.Server.RestAPI
             return mails;
         }
 
-        [Route("send")]
+        [Route("send-mail")]
         [Authorize]
         public async Task<EmailModel> SendMail([FromBody] CreateEmailModel model)
         {
             var mail = await _service.Create(model);
 
             return _mapper.Map<EmailModel>(mail);
+        }
+
+        [Route("move-mails")]
+        [Authorize]
+        public async Task<EmailsMetaModel> MoveMails([FromBody] MoveMailsModel model)
+        {
+            foreach(var id in model.EmailIds)
+            {
+                await _service.UpdateFolder(id, model.Folder);
+            }
+
+            return _service.GetMeta();
+        }
+
+        [Route("set-starred")]
+        [Authorize]
+        public async Task<IActionResult> SetStarred([FromBody] SetStarredModel model)
+        {
+            await _service.SetStarred(model.MailId, model.Value);
+
+            return Ok();
+        }
+
+        [Route("mark-unread")]
+        [Authorize]
+        public async Task<EmailsMetaModel> MarkUnread([FromBody] MarkUnreadModel model)
+        {
+            var emailsMeta = new EmailsMetaModel();
+            foreach (var id in model.EmailIds)
+            {
+                var mail = await _service.MarkUnread(id, model.UnreadFlag);
+            }
+            
+
+            return _service.GetMeta();
         }
     }
 }

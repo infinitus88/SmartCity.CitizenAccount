@@ -5,6 +5,7 @@ using SmartCity.CitizenAccount.Api.Models.Citizens;
 using SmartCity.CitizenAccount.Data.Access.DAL.Repositories;
 using SmartCity.CitizenAccount.Data.Models;
 using System;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -50,7 +51,8 @@ namespace SmartCity.CitizenAccount.Services.CitizenAppService
         public async Task<Citizen> Create(CreateCitizenModel input)
         {
             var citizen = _mapper.Map<Citizen>(input);
-            _repository.Add<Citizen>(citizen);
+            citizen.DateOfBirth = DateTime.ParseExact(input.DateOfBirth, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+            _repository.Add(citizen);
 
             await _repository.SaveAsync();
 

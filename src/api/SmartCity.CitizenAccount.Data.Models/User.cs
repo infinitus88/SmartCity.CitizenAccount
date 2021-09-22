@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SmartCity.CitizenAccount.Data.Models.Constants;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -9,7 +10,7 @@ namespace SmartCity.CitizenAccount.Data.Models
         public User()
         {
             Role = "user";
-            PhotoUrl = "default-avatar.jpg";
+            PhotoUrl = Images.DefaultAvatar;
             About = "";
         }
 
