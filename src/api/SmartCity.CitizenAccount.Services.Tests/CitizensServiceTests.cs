@@ -68,13 +68,13 @@ namespace SmartCity.CitizenAccount.Services.Tests
             var model = new CreateCitizenModel
             {
                 FullName = "Rustam Minnikhanov",
-                DateOfBirth = DateTime.Now
+                DateOfBirth = DateTime.Now.ToString("dd/MM/yyyy",CultureInfo.InvariantCulture)
             };
 
             var result = await _service.Create(model);
 
             result.FullName.Should().Be(model.FullName);
-            result.DateOfBirth.Should().Be(model.DateOfBirth);
+            result.DateOfBirth.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture).Should().Be(model.DateOfBirth);
         }
 
 

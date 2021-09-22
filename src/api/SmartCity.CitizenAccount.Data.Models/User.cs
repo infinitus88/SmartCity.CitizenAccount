@@ -22,6 +22,9 @@ namespace SmartCity.CitizenAccount.Data.Models
 
         public string PhotoUrl { get; set; }
         public string About { get; set; }
+        public byte Status { get; set; }
+
+        public string CitizenId { get; set; }
 
         public bool IsDeleted { get; set; }      
         

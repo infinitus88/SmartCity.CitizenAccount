@@ -11,6 +11,7 @@ namespace SmartCity.CitizenAccount.Api.Models.Users
         {
             UserRole = "user";
         }
+
         public int UId { get; set; }
         public string DisplayName { get; set; }
         public string Email { get; set; }
