@@ -12,5 +12,6 @@ namespace SmartCity.CitizenAccount.Services.CitizenAppService
         IQueryable<Citizen> Get();
         Citizen Get(string id);
         Task<Citizen> Create(CreateCitizenModel input);
+        Task Delete(string id);
     }
 }

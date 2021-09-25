@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SmartCity.CitizenAccount.Data.Access.DAL;
 
 namespace SmartCity.CitizenAccount.Data.Access.Migrations
 {
     [DbContext(typeof(MainDbContext))]
-    partial class MainDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210923161840_OoptimizeGenderAndStatusPropertiesForFrontend")]
+    partial class OoptimizeGenderAndStatusPropertiesForFrontend
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,9 +39,6 @@ namespace SmartCity.CitizenAccount.Data.Access.Migrations
 
                     b.Property<byte>("Gender")
                         .HasColumnType("tinyint");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
 
                     b.Property<string>("PhotoUrl")
                         .HasColumnType("nvarchar(max)");
@@ -94,7 +93,7 @@ namespace SmartCity.CitizenAccount.Data.Access.Migrations
                     b.ToTable("Emails");
                 });
 
-            modelBuilder.Entity("SmartCity.CitizenAccount.Data.Models.Invoice", b =>
+            modelBuilder.Entity("SmartCity.CitizenAccount.Data.Models.PaymentBill", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -110,17 +109,11 @@ namespace SmartCity.CitizenAccount.Data.Access.Migrations
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<byte>("InvoiceType")
-                        .HasColumnType("tinyint");
-
-                    b.Property<string>("ServiceName")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CitizenId");
 
-                    b.ToTable("Invoices");
+                    b.ToTable("PaymentBills");
                 });
 
             modelBuilder.Entity("SmartCity.CitizenAccount.Data.Models.User", b =>
@@ -165,7 +158,7 @@ namespace SmartCity.CitizenAccount.Data.Access.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("SmartCity.CitizenAccount.Data.Models.Invoice", b =>
+            modelBuilder.Entity("SmartCity.CitizenAccount.Data.Models.PaymentBill", b =>
                 {
                     b.HasOne("SmartCity.CitizenAccount.Data.Models.Citizen", "Citizen")
                         .WithMany()

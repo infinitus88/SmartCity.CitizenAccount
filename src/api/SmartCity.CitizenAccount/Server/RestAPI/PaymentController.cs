@@ -25,9 +25,17 @@ namespace SmartCity.CitizenAccount.Server.RestAPI
         [Route("proceed-payment")]
         public async Task<PaymentResultModel> MakePayment([FromBody] MakePaymentModel model)
         {
-            var paymentBill = await _service.Create(model);
+            var invoice = await _service.CreateExpenseInvoice(model);
 
-            return new PaymentResultModel { Amount = paymentBill.Amount, IsSucceed = true };
+            return new PaymentResultModel { Amount = invoice.Amount, IsSucceed = true };
+        }
+
+        [Route("transfer-amount")]
+        public async Task<PaymentResultModel> TransferAmount([FromBody] MakePaymentModel model)
+        {
+            var invoice = await _service.CreateGainInvoice(model);
+
+            return new PaymentResultModel { Amount = invoice.Amount, IsSucceed = true };
         }
     }
 }

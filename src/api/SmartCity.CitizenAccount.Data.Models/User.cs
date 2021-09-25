@@ -9,6 +9,7 @@ namespace SmartCity.CitizenAccount.Data.Models
     {
         public User()
         {
+            Status = Status.Active;
             Role = "user";
             PhotoUrl = Images.DefaultAvatar;
             About = "";
@@ -22,9 +23,10 @@ namespace SmartCity.CitizenAccount.Data.Models
 
         public string PhotoUrl { get; set; }
         public string About { get; set; }
-        public byte Status { get; set; }
+        public Status Status { get; set; }
 
         public string CitizenId { get; set; }
+        public bool IsVerified { get; set; }
 
         public bool IsDeleted { get; set; }      
         

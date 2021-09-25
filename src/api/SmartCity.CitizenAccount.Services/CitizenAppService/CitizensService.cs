@@ -25,7 +25,7 @@ namespace SmartCity.CitizenAccount.Services.CitizenAppService
 
         private IQueryable<Citizen> GetQuery()
         {
-            var query = _repository.Query<Citizen>();
+            var query = _repository.Query<Citizen>().Where(c => !c.IsDeleted);
             return query;
         }
 
@@ -51,12 +51,26 @@ namespace SmartCity.CitizenAccount.Services.CitizenAppService
         public async Task<Citizen> Create(CreateCitizenModel input)
         {
             var citizen = _mapper.Map<Citizen>(input);
-            citizen.DateOfBirth = DateTime.ParseExact(input.DateOfBirth, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             _repository.Add(citizen);
 
             await _repository.SaveAsync();
 
             return citizen;
+        }
+
+        public async Task Delete(string id)
+        {
+            var citizen = GetQuery().FirstOrDefault(u => u.Id == id);
+
+            if (citizen == null)
+            {
+                throw new NotFoundException("Citizen is not found");
+            }
+
+            if (citizen.IsDeleted) return;
+
+            citizen.IsDeleted = true;
+            await _repository.SaveAsync();
         }
     }
 }

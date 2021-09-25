@@ -83,9 +83,10 @@ namespace SmartCity.CitizenAccount
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors("VueCorsPolicy");
+
             app.UseAuthentication();
 
-            app.UseCors("VueCorsPolicy");
 
             app.UseHttpsRedirection();
 
@@ -98,13 +99,6 @@ namespace SmartCity.CitizenAccount
                 endpoints.MapControllers();
             });
 
-            app.UseSpa(configuration: bulder =>
-            {
-                if (env.IsDevelopment())
-                {
-                    bulder.UseProxyToSpaDevelopmentServer("http://localhost:8080");
-                }
-            });
         }
 
         private void InitDatabase(IApplicationBuilder app)

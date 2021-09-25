@@ -50,6 +50,7 @@ namespace SmartCity.CitizenAccount.Services.Tests
             result.Count().Should().Be(1);
         }
 
+        [Fact]
         public void GetShouldReturnAllExceptDeleted()
         {
             _usersList.Add(new User());

@@ -6,6 +6,6 @@ namespace SmartCity.CitizenAccount.Data.Access.Constants
 {
     public static class Roles
     {
-        public const string Administrator = "Administrator";
+        public const string Administrator = "admin";
     }
 }

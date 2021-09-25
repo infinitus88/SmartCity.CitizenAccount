@@ -14,9 +14,11 @@ namespace SmartCity.CitizenAccount.Data.Models
         public string Id { get; set; }
         public string FullName { get; set; }
         public string PhotoUrl { get; set; }
-        public byte Sex { get; set; }
+        public Gender Gender { get; set; }
         public decimal Balance { get; set; }
         public DateTime DateOfBirth { get; set; }
+
+        public bool IsDeleted { get; set; }
 
         public DateTime RegistrationDate { get; set; }
     }

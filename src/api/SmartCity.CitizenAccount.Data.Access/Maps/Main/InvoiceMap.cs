@@ -4,12 +4,12 @@ using SmartCity.CitizenAccount.Data.Models;
 
 namespace SmartCity.CitizenAccount.Data.Access.Maps.Main
 {
-    public class PaymentBillMap : IMap
+    public class InvoiceMap : IMap
     {
         public void Visit(ModelBuilder builder)
         {
-            var entity = builder.Entity<PaymentBill>();
-            entity.ToTable("PaymentBills").HasKey(x => x.Id);
+            var entity = builder.Entity<Invoice>();
+            entity.ToTable("Invoices").HasKey(x => x.Id);
             entity.Property(x => x.Amount).HasColumnType("decimal(9,2)");
         }
     }

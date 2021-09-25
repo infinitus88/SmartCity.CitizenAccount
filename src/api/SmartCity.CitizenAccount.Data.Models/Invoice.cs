@@ -2,17 +2,19 @@
 
 namespace SmartCity.CitizenAccount.Data.Models
 {
-    public class PaymentBill
+    public class Invoice
     {
-        public PaymentBill()
+        public Invoice()
         {
             CreationDate = DateTime.Now;
         }
 
         public int Id { get; set; }
+        public string ServiceName { get; set; }
         public string CitizenId { get; set; }
         public virtual Citizen Citizen { get; set; }
         public decimal Amount { get; set; }
+        public InvoiceType InvoiceType { get; set; }
 
         public DateTime CreationDate { get; set; }
     }

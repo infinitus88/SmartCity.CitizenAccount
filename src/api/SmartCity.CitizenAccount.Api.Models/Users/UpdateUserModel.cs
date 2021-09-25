@@ -21,6 +21,12 @@ namespace SmartCity.CitizenAccount.Api.Models.Users
         [MaxLength(120)]
         public string About { get; set; }
 
+        [Required]
         public string Role { get; set; }
+
+        [Required]
+        public string Status { get; set; }
+
+        public string CitizenId { get; set; }
     }
 }

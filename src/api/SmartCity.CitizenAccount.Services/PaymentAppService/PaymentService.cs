@@ -1,4 +1,5 @@
-﻿using SmartCity.CitizenAccount.Api.Common.Exceptions;
+﻿using AutoMapper;
+using SmartCity.CitizenAccount.Api.Common.Exceptions;
 using SmartCity.CitizenAccount.Api.Models.Payment;
 using SmartCity.CitizenAccount.Data.Access.DAL.Repositories;
 using SmartCity.CitizenAccount.Data.Models;
@@ -13,33 +14,35 @@ namespace SmartCity.CitizenAccount.Services.PaymentAppService
     {
         private readonly IGenericRepository _repository;
         private readonly ICitizensService _service;
+        private readonly IMapper _mapper;
 
-        public PaymentService(IGenericRepository repository, ICitizensService service)
+        public PaymentService(IGenericRepository repository, ICitizensService service, IMapper mapper)
         {
             _repository = repository;
             _service = service;
+            _mapper = mapper;
         }
 
-        private IQueryable<PaymentBill> GetQuery()
+        private IQueryable<Invoice> GetQuery()
         {
-            var query = _repository.Query<PaymentBill>();
+            var query = _repository.Query<Invoice>();
 
             return query;
         }
 
-        public IQueryable<PaymentBill> Get()
+        public IQueryable<Invoice> Get()
         {
             return GetQuery();
         }
 
-        public IQueryable<PaymentBill> GetByCitizenId(string id)
+        public IQueryable<Invoice> GetByCitizenId(string id)
         {
             var paymetBills = GetQuery().Where(p => p.CitizenId == id);
 
             return paymetBills;
         }
 
-        public async Task<PaymentBill> Create(MakePaymentModel model)
+        public async Task<Invoice> CreateExpenseInvoice(MakePaymentModel model)
         {
             var user = _service.Get(model.CitizenId);
 
@@ -52,13 +55,31 @@ namespace SmartCity.CitizenAccount.Services.PaymentAppService
             {
                 throw new BadRequestException("Not enough funds in the balance");
             }
-
-            var paymentBill = new PaymentBill { CitizenId = model.CitizenId, Amount = model.Amount };
+            var invoice = _mapper.Map<Invoice>(model);
+            invoice.InvoiceType = InvoiceType.Expense;
             user.Balance -= model.Amount;
-            _repository.Add(paymentBill);
+            _repository.Add(invoice);
             await _repository.SaveAsync();
 
-            return paymentBill;
+            return invoice;
+        }
+
+        public async Task<Invoice> CreateGainInvoice(MakePaymentModel model)
+        {
+            var user = _service.Get(model.CitizenId);
+
+            if (user == null)
+            {
+                throw new NotFoundException("User is not found");
+            }
+
+            var invoice = _mapper.Map<Invoice>(model);
+            invoice.InvoiceType = InvoiceType.Gain;
+            user.Balance += model.Amount;
+            _repository.Add(invoice);
+            await _repository.SaveAsync();
+
+            return invoice;
         }
     }
 }

@@ -13,6 +13,7 @@ using System.Linq;
 using SmartCity.CitizenAccount.Api.Common.Exceptions;
 using SmartCity.CitizenAccount.Data.Access.Common;
 using SmartCity.CitizenAccount.Data.Access.Helpers;
+using SmartCity.CitizenAccount.Data.Models.Constants;
 
 namespace SmartCity.CitizenAccount.Services.AuthAppService
 {
@@ -35,7 +36,7 @@ namespace SmartCity.CitizenAccount.Services.AuthAppService
 
         public UserWithToken Authenticate(string email, string password)
         {
-            var user = (from u in _repository.Query<User>()
+            var user = (from u in _repository.Query<User>().Where(u => u.Status == Status.Active)
                             where u.Email == email && !u.IsDeleted
                         select u).FirstOrDefault();
 
