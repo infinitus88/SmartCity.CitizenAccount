@@ -54,7 +54,7 @@ export default {
   },
   computed: {
     canSee () {
-      this.$acl.check(this.$store.state.AppActiveUser.userRole)
+      this.$acl.check(this.$store.state.AppActiveUser.role)
       return this.to ? this.$acl.check(this.$router.match(this.to).meta.rule) : true
     },
     activeLink () {

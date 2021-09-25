@@ -204,12 +204,11 @@ export default {
   },
   methods: {
     canSeeGroup (ruleName) {
-      return ruleName === 'admin' ? this.$acl.check(ruleName) : true
+      return ruleName === 'admin' ? this.$store.state.AppActiveUser.role === ruleName : true
     },
     canSeeHeader (headerName) {
-      console.log(headerName)
-      if (headerName === 'Admin') {
-        return this.$acl.check('admin')
+      if (headerName === 'Administrating') {
+        return this.$store.state.AppActiveUser.role === 'admin'
       }
 
       return true

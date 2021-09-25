@@ -1,6 +1,7 @@
 // en, de, fr, pt
 export default {
   en: {
+    Citizen: 'Citizen',
     Dashboard: 'Dashboard',
     eCommerce: 'eCommerce',
     Apps: 'Apps',

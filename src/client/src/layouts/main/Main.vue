@@ -241,11 +241,12 @@ export default {
     }
   },
   created () {
-
+    // Default set ups for this application layer
     if (!this.$store.state.auth.isUserLoggedIn()) {
       this.$router.push('/pages/login').catch(() => {})
     }
-
+    this.$acl.change(this.$store.state.AppActiveUser.role)
+  
     const color = this.navbarColor === '#fff' && this.isThemeDark ? '#10163a' : this.navbarColor
     this.updateNavbarColor(color)
     this.setNavMenuVisibility(this.$store.state.mainLayoutType)

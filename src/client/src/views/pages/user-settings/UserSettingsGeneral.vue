@@ -3,7 +3,7 @@
 
     <!-- Img Row -->
     <div class="flex flex-wrap items-center mb-base">
-      <vs-avatar :src="activeUserInfo.photoURL" size="70px" class="mr-4 mb-4" />
+      <vs-avatar :src="activeUserInfo.photoUrl" size="70px" class="mr-4 mb-4" />
       <div>
         <vs-button class="mr-4 sm:mb-0 mb-2">Upload photo</vs-button>
         <vs-button type="border" color="danger">Remove</vs-button>
@@ -48,7 +48,7 @@ export default {
     updateUserInfo () {
       const payload = {
         displayName: this.name,
-        photoURL: this.activeUserInfo.photoURL
+        photoUrl: this.activeUserInfo.photoUrl
       }
       this.$store.dispatch('user/updateUserInfo', payload)
     }

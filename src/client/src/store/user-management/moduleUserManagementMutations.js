@@ -15,5 +15,12 @@ export default {
   REMOVE_RECORD (state, itemId) {
     const userIndex = state.users.findIndex((u) => u.id === itemId)
     state.users.splice(userIndex, 1)
+  },
+  SET_LOADING (state, status) {
+    state.isLoading = status
   }
+  // UPDATE_USER (state, userId, payload) {
+  //   const userIndex = state.users.findIndex((user) => user.id === userId)
+  //   if (userIndex !== -1) state.mails[userIndex] = payload.unreadFlag
+  // }
 }

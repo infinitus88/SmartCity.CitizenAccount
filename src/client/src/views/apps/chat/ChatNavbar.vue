@@ -12,7 +12,7 @@
         <vs-navbar class="p-4 flex navbar-custom" color="white" type="flat">
             <div class="relative flex mr-4">
                 <feather-icon icon="MenuIcon" class="mr-4 cursor-pointer" v-if="isSidebarCollapsed" @click.stop="$emit('openContactsSidebar')" />
-                <vs-avatar class="m-0 border-2 border-solid border-white" size="40px" :src="userDetails.photoURL" @click.stop="$emit('showProfileSidebar', userId)" />
+                <vs-avatar class="m-0 border-2 border-solid border-white" size="40px" :src="userDetails.photoUrl" @click.stop="$emit('showProfileSidebar', userId)" />
                 <div class="h-3 w-3 border-white border border-solid rounded-full absolute right-0 bottom-0" :class="'bg-' + getStatusColor(false)"></div>
             </div>
             <h6>{{ userDetails.displayName }}</h6>

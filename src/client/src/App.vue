@@ -67,9 +67,9 @@ export default {
     document.documentElement.style.setProperty('--vh', `${vh}px`)
   },
   async created () {
-    if (!this.$store.state.auth.isUserLoggedIn()) {
-      this.$router.push('/pages/login').catch(() => {})
-    }
+    // if (!this.$store.state.auth.isUserLoggedIn()) {
+    //   this.$router.push('/pages/login').catch(() => {})
+    // }
 
     // jwt
     jwt.init()

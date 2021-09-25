@@ -49,7 +49,7 @@ export default [
     ]
   },
   {
-    header: 'Admin',
+    header: 'Administrating',
     icon: 'PackageIcon',
     items: [
       {
@@ -64,18 +64,21 @@ export default [
             name: 'List',
             slug: 'app-user-list',
             i18n: 'List'
-          },
+          }
+        ]
+      },
+      {
+        url: null,
+        name: 'Citizen',
+        icon: 'UserCheckIcon',
+        i18n: 'Citizen',
+        rule: 'admin',
+        submenu: [
           {
-            url: '/apps/user/user-view/268',
-            name: 'View',
-            slug: 'app-user-view',
-            i18n: 'View'
-          },
-          {
-            url: '/apps/user/user-edit/268',
-            name: 'Edit',
-            slug: 'app-user-edit',
-            i18n: 'Edit'
+            url: '/apps/citizen/citizen-list',
+            name: 'List',
+            slug: 'app-citizen-list',
+            i18n: 'List'
           }
         ]
       }

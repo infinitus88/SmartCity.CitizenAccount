@@ -1,12 +1,3 @@
-<!-- =========================================================================================
-  File Name: UserEdit.vue
-  Description: User Edit Page
-  ----------------------------------------------------------------------------------------
-  Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
-  Author: Pixinvent
-  Author URL: http://www.themeforest.net/user/pixinvent
-========================================================================================== -->
-
 <template>
   <div id="page-user-edit">
 
@@ -27,16 +18,6 @@
               <user-edit-tab-account class="mt-4" :data="user_data" />
             </div>
           </vs-tab>
-          <vs-tab label="Information" icon-pack="feather" icon="icon-info">
-            <div class="tab-text">
-              <user-edit-tab-information class="mt-4" :data="user_data" />
-            </div>
-          </vs-tab>
-          <vs-tab label="Social" icon-pack="feather" icon="icon-share-2">
-            <div class="tab-text">
-              <user-edit-tab-social class="mt-4" :data="user_data" />
-            </div>
-          </vs-tab>
         </vs-tabs>
 
       </div>
@@ -48,16 +29,15 @@
 <script>
 import UserEditTabAccount     from './UserEditTabAccount.vue'
 import UserEditTabInformation from './UserEditTabInformation.vue'
-import UserEditTabSocial      from './UserEditTabSocial.vue'
 
 // Store Module
-import moduleUserManagement from '@/store/user-management/moduleUserManagement.js'
+// import moduleUserManagement from '@/store/user-management/moduleUserManagement.js'
+import moduleCitizen from '@/store/citizen/moduleCitizen.js'
 
 export default {
   components: {
     UserEditTabAccount,
-    UserEditTabInformation,
-    UserEditTabSocial
+    UserEditTabInformation
   },
   data () {
     return {
@@ -91,11 +71,14 @@ export default {
     }
   },
   created () {
-    // Register Module UserManagement Module
-    if (!moduleUserManagement.isRegistered) {
-      this.$store.registerModule('userManagement', moduleUserManagement)
-      moduleUserManagement.isRegistered = true
-    }
+    this.$store.registerModule('citizen', moduleCitizen)
+    this.$store.dispatch('citizen/fetchCitizens') // Fetch Citizens From API
+
+    // // Register Module UserManagement Module
+    // if (!moduleUserManagement.isRegistered) {
+    //   this.$store.registerModule('userManagement', moduleUserManagement)
+    //   moduleUserManagement.isRegistered = true
+    // }
     this.fetch_user_data(this.$route.params.userId)
   }
 }

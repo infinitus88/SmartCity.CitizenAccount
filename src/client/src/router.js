@@ -91,11 +91,11 @@ const router = new Router({
           meta: {
             breadcrumb: [
               { title: 'Home', url: '/' },
-              { title: 'User' },
+              { title: 'User', url: '/apps/user/user-list' },
               { title: 'List', active: true }
             ],
             pageTitle: 'User List',
-            rule: 'user'
+            rule: 'admin'
           }
         },
         {
@@ -105,7 +105,7 @@ const router = new Router({
           meta: {
             breadcrumb: [
               { title: 'Home', url: '/' },
-              { title: 'User' },
+              { title: 'User', url: '/apps/user/user-list' },
               { title: 'View', active: true }
             ],
             pageTitle: 'User View',
@@ -119,10 +119,25 @@ const router = new Router({
           meta: {
             breadcrumb: [
               { title: 'Home', url: '/' },
-              { title: 'User' },
+              { title: 'User', url: '/apps/user/user-list' },
               { title: 'Edit', active: true }
             ],
             pageTitle: 'User Edit',
+            rule: 'admin'
+          }
+        },
+
+        {
+          path: '/apps/citizen/citizen-list',
+          name: 'app-citizen-list',
+          component: () => import('@/views/apps/citizen/citizen-list/CitizenList.vue'),
+          meta: {
+            breadcrumb: [
+              { title: 'Home', url: '/' },
+              { title: 'Citizen', url: '/apps/citizen/citizen-list' },
+              { title: 'List', active: true }
+            ],
+            pageTitle: 'Citizen List',
             rule: 'admin'
           }
         },

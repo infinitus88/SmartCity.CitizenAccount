@@ -56,12 +56,12 @@ export default{
       return this.$store.getters['chat/chatDataOfUser'](this.userId)
     },
     activeUserImg () {
-      return this.$store.state.AppActiveUser.photoURL
+      return this.$store.state.AppActiveUser.photoUrl
     },
     senderImg () {
       return (isSentByActiveUser) => {
-        if (isSentByActiveUser) return this.$store.state.AppActiveUser.photoURL
-        else return this.$store.getters['chat/contact'](this.userId).photoURL
+        if (isSentByActiveUser) return this.$store.state.AppActiveUser.photoUrl
+        else return this.$store.getters['chat/contact'](this.userId).photoUrl
       }
     },
     hasSentPreviousMsg () {

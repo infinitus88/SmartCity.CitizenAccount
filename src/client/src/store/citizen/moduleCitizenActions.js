@@ -1,7 +1,7 @@
 import axios from '@/axios.js'
 
 export default {
-  // Fetch emails
+  // Fetch citizens
   fetchCitizens ({ commit }) {
     commit('SET_LOADING', true)
     return new Promise((resolve, reject) => {
@@ -16,14 +16,24 @@ export default {
         .catch((error) => { reject(error) })
     })
   },
-  proceedPayment ({ commit }, payload) {
-    commit('SET_LOADING', true)
-    return new Promise((resolve, reject) => {
-      axios.post('/api/payment', payload)
-        .then((response) => {
 
-          commit('SET_CITIZENS', response.data)
-          commit('SET_LOADING', false)
+  // Fetch citizen
+  fetchCitizen (context, userId) {
+    return new Promise((resolve, reject) => {
+      axios.get(`/api/citizens/${userId}`)
+        .then((response) => {
+          resolve(response)
+        })
+        .catch((error) => { reject(error) })
+    })
+  },
+
+  // Remove citizen
+  removeRecord ({ commit }, userId) {
+    return new Promise((resolve, reject) => {
+      axios.delete(`/api/users/${userId}`)
+        .then((response) => {
+          commit('REMOVE_RECORD', userId)
           resolve(response)
         })
         .catch((error) => { reject(error) })

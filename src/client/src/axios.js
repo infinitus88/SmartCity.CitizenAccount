@@ -1,10 +1,11 @@
 // axios
 import axios from 'axios'
 
-const baseURL = 'https://smartcity-citizenaccount.azurewebsites.net'
+let baseURL = 'http://smartcity-citizenaccount.azurewebsites.net'
+
+if (process.env.NODE_ENV === 'development') baseURL = 'https://localhost:44376/'
 
 export default axios.create({
-  baseURL,
+  baseURL
   // You can add your headers here
-  headers: { 'Access-Control-Allow-Origin': '*' }
 })

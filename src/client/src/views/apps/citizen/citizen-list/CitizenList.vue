@@ -1,29 +1,12 @@
-<!-- =========================================================================================
-  File Name: UserList.vue
-  Description: User List page
-  ----------------------------------------------------------------------------------------
-  Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
-  Author: Pixinvent
-  Author URL: http://www.themeforest.net/user/pixinvent
-========================================================================================== -->
-
 <template>
 
-  <div id="page-user-list">
+  <div id="page-citizen-list">
 
-    <vx-card ref="filterCard" title="Filters" class="user-list-filters mb-8" actionButtons @refresh="resetColFilters" @remove="resetColFilters">
+    <vx-card ref="filterCard" title="Filters" class="citizen-list-filters mb-8" actionButtons @refresh="resetColFilters" @remove="resetColFilters">
       <div class="vx-row">
         <div class="vx-col md:w-1/4 sm:w-1/2 w-full">
-          <label class="text-sm opacity-75">Role</label>
-          <v-select :options="roleOptions" :clearable="false" :dir="$vs.rtl ? 'rtl' : 'ltr'" v-model="roleFilter" class="mb-4 md:mb-0" />
-        </div>
-        <div class="vx-col md:w-1/4 sm:w-1/2 w-full">
-          <label class="text-sm opacity-75">Status</label>
-          <v-select :options="statusOptions" :clearable="false" :dir="$vs.rtl ? 'rtl' : 'ltr'" v-model="statusFilter" class="mb-4 md:mb-0" />
-        </div>
-        <div class="vx-col md:w-1/4 sm:w-1/2 w-full">
-          <label class="text-sm opacity-75">Verified</label>
-          <v-select :options="isVerifiedOptions" :clearable="false" :dir="$vs.rtl ? 'rtl' : 'ltr'" v-model="isVerifiedFilter" class="mb-4 sm:mb-0" />
+          <label class="text-sm opacity-75">Gender</label>
+          <v-select :options="genderOptions" :clearable="false" :dir="$vs.rtl ? 'rtl' : 'ltr'" v-model="genderFilter" class="mb-4 md:mb-0" />
         </div>
       </div>
     </vx-card>
@@ -36,7 +19,7 @@
         <div class="flex-grow">
           <vs-dropdown vs-trigger-click class="cursor-pointer">
             <div class="p-4 border border-solid d-theme-border-grey-light rounded-full d-theme-dark-bg cursor-pointer flex items-center justify-between font-medium">
-              <span class="mr-2">{{ currentPage * paginationPageSize - (paginationPageSize - 1) }} - {{ usersData.length - currentPage * paginationPageSize > 0 ? currentPage * paginationPageSize : usersData.length }} of {{ usersData.length }}</span>
+              <span class="mr-2">{{ currentPage * paginationPageSize - (paginationPageSize - 1) }} - {{ citizensData.length - currentPage * paginationPageSize > 0 ? currentPage * paginationPageSize : citizensData.length }} of {{ citizensData.length }}</span>
               <feather-icon icon="ChevronDownIcon" svgClasses="h-4 w-4" />
             </div>
             <!-- <vs-button class="btn-drop" type="line" color="primary" icon-pack="feather" icon="icon-chevron-down"></vs-button> -->
@@ -64,12 +47,10 @@
 
           <!-- ACTION - DROPDOWN -->
           <vs-dropdown vs-trigger-click class="cursor-pointer">
-
             <div class="p-3 shadow-drop rounded-lg d-theme-dark-light-bg cursor-pointer flex items-end justify-center text-lg font-medium w-32">
               <span class="mr-2 leading-none">Actions</span>
               <feather-icon icon="ChevronDownIcon" svgClasses="h-4 w-4" />
             </div>
-
             <vs-dropdown-menu>
               <vs-dropdown-item>
                 <span class="flex items-center">
@@ -90,7 +71,7 @@
         class="ag-theme-material w-100 my-4 ag-grid-table"
         :columnDefs="columnDefs"
         :defaultColDef="defaultColDef"
-        :rowData="usersData"
+        :rowData="citizensData"
         rowSelection="multiple"
         colResizeDefault="shift"
         :animateRows="true"
@@ -117,12 +98,9 @@ import '@/assets/scss/vuexy/extraComponents/agGridStyleOverride.scss'
 import vSelect from 'vue-select'
 
 // Store Module
-import moduleUserManagement from '@/store/user-management/moduleUserManagement.js'
+import moduleCitizen from '@/store/citizen/moduleCitizen.js'
 
 // Cell Renderer
-import CellRendererLink from './cell-renderer/CellRendererLink.vue'
-import CellRendererStatus from './cell-renderer/CellRendererStatus.vue'
-import CellRendererVerified from './cell-renderer/CellRendererVerified.vue'
 import CellRendererActions from './cell-renderer/CellRendererActions.vue'
 import CellRendererBalance from './cell-renderer/CellRendererBalance.vue'
 import CellRendererName from './cell-renderer/CellRendererName.vue'
@@ -134,38 +112,21 @@ export default {
     vSelect,
 
     // Cell Renderer
-    CellRendererLink,
-    CellRendererStatus,
-    CellRendererVerified,
     CellRendererActions,
     CellRendererBalance,
     CellRendererName
   },
   data () {
     return {
+      genderFilter: { label: 'All', value: 'all'},
+      genderOptions: [
+        { label: 'All', value: 'all' },
+        { label: 'Male', value: 'male' },
+        { label: 'Female', value: 'female' },
+        { label: 'Other', value: 'other' }
+      ],
 
       // Filter Options
-      roleFilter: { label: 'All', value: 'all' },
-      roleOptions: [
-        { label: 'All', value: 'all' },
-        { label: 'Admin', value: 'admin' },
-        { label: 'User', value: 'user' }
-      ],
-
-      statusFilter: { label: 'All', value: 'all' },
-      statusOptions: [
-        { label: 'All', value: 'all' },
-        { label: 'Active', value: 'active' },
-        { label: 'Deactivated', value: 'deactivated' }
-      ],
-
-      isVerifiedFilter: { label: 'All', value: 'all' },
-      isVerifiedOptions: [
-        { label: 'All', value: 'all' },
-        { label: 'Yes', value: 'yes' },
-        { label: 'No', value: 'no' }
-      ],
-
       searchQuery: '',
 
       // AgGrid
@@ -180,7 +141,7 @@ export default {
         {
           headerName: 'ID',
           field: 'id',
-          width: 125,
+          width: 415,
           filter: true,
           checkboxSelection: true,
           headerCheckboxSelectionFilteredOnly: true,
@@ -188,37 +149,35 @@ export default {
         },
         {
           headerName: 'Name',
-          field: 'displayName',
+          field: 'fullName',
           filter: true,
-          width: 200,
+          width: 250,
           cellRendererFramework: 'CellRendererName'
         },
         {
-          headerName: 'Email',
-          field: 'email',
+          headerName: 'Gender',
+          field: 'gender',
           filter: true,
-          width: 225
+          width: 135
         },
         {
-          headerName: 'Role',
-          field: 'role',
-          filter: true,
-          width: 150
-        },
-        {
-          headerName: 'Status',
-          field: 'status',
+          headerName: 'Balance',
+          field: 'balance',
           filter: true,
           width: 150,
-          cellRendererFramework: 'CellRendererStatus'
+          cellRendererFramework: 'CellRendererBalance'
         },
         {
-          headerName: 'Verified',
-          field: 'isVerified',
+          headerName: 'Date Of Birth',
+          field: 'dateOfBirth',
           filter: true,
-          width: 125,
-          cellRendererFramework: 'CellRendererVerified',
-          cellClass: 'text-center'
+          width: 200
+        },
+        {
+          headerName: 'Date Of Registration',
+          field: 'registrationDate',
+          filter: true,
+          width: 200
         },
         {
           headerName: 'Actions',
@@ -230,28 +189,20 @@ export default {
 
       // Cell Renderer Components
       components: {
-        CellRendererLink,
-        CellRendererStatus,
-        CellRendererVerified,
-        CellRendererActions
+        CellRendererActions,
+        CellRendererBalance,
+        CellRendererName
       }
     }
   },
   watch: {
-    roleFilter (obj) {
-      this.setColumnFilter('role', obj.value)
-    },
-    statusFilter (obj) {
-      this.setColumnFilter('status', obj.value)
-    },
-    isVerifiedFilter (obj) {
-      const val = obj.value === 'all' ? 'all' : obj.value === 'yes' ? 'true' : 'false'
-      this.setColumnFilter('isVerified', val)
+    genderFilter (obj) {
+      this.setColumnFilter('gender', obj.value)
     }
   },
   computed: {
-    usersData () {
-      return this.$store.state.userManagement.users
+    citizensData () {
+      return this.$store.state.citizen.citizens
     },
     paginationPageSize () {
       if (this.gridApi) return this.gridApi.paginationGetPageSize()
@@ -289,7 +240,7 @@ export default {
       this.gridApi.onFilterChanged()
 
       // Reset Filter Options
-      this.roleFilter = this.statusFilter = this.isVerifiedFilter = { label: 'All', value: 'all' }
+      this.genderFilter = { label: 'All', value: 'all' }
 
       this.$refs.filterCard.removeRefreshAnimation()
     },
@@ -299,22 +250,21 @@ export default {
   },
   mounted () {
     this.gridApi = this.gridOptions.api
-    console.log(this.gridApi)
   },
   created () {
-    if (!moduleUserManagement.isRegistered) {
-      this.$store.registerModule('userManagement', moduleUserManagement)
-      moduleUserManagement.isRegistered = true
+    if (!moduleCitizen.isRegistered) {
+      this.$store.registerModule('citizen', moduleCitizen)
+      moduleCitizen.isRegistered = true
     }
-    this.$store.dispatch('userManagement/fetchUsers').catch(err => { console.error(err) })
+    this.$store.dispatch('citizen/fetchCitizens').catch(err => { console.error(err) })
   }
 }
 
 </script>
 
 <style lang="scss">
-#page-user-list {
-  .user-list-filters {
+#page-citizen-list {
+  .citizen-list-filters {
     .vs__actions {
       position: absolute;
       right: 0;

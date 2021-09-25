@@ -6,7 +6,6 @@
   Author: Pixinvent
   Author URL: http://www.themeforest.net/user/pixinvent
 ==========================================================================================*/
-
 import jwt from '../../http/requests/auth/jwt/index.js'
 
 import router from '@/router'
@@ -97,18 +96,17 @@ export default {
         .catch(error => { reject(error) })
     })
   },
-  // eslint-disable-next-line no-unused-vars
+
   fetchAccessToken ({ commit }) {
-    // eslint-disable-next-line no-unused-vars
     return new Promise((resolve) => {
-      // jwt.refreshToken().then(response => { 
-      //   // localStorage.setItem('accessToken', response.data.accessToken)
+      jwt.refreshToken().then(response => { 
+        localStorage.setItem('accessToken', response.data.accessToken)
 
-      //   // // Set bearer token in axios
-      //   // commit('SET_BEARER', response.data.accessToken)
+        // // Set bearer token in axios
+        commit('SET_BEARER', response.data.accessToken)
 
-      //   resolve(response) 
-      // })
+        resolve(response) 
+      })
     })
   }
 }
