@@ -1,12 +1,3 @@
-<!-- =========================================================================================
-  File Name: UserList.vue
-  Description: User List page
-  ----------------------------------------------------------------------------------------
-  Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
-  Author: Pixinvent
-  Author URL: http://www.themeforest.net/user/pixinvent
-========================================================================================== -->
-
 <template>
 
   <div id="page-user-list">
@@ -74,7 +65,7 @@
               <vs-dropdown-item>
                 <span class="flex items-center">
                   <feather-icon icon="TrashIcon" svgClasses="h-4 w-4" class="mr-2" />
-                  <span>Delete</span>
+                  <span @click="deleteUsers">Delete</span>
                 </span>
               </vs-dropdown-item>
             </vs-dropdown-menu>
@@ -190,14 +181,14 @@ export default {
           headerName: 'Name',
           field: 'displayName',
           filter: true,
-          width: 200,
+          width: 230,
           cellRendererFramework: 'CellRendererName'
         },
         {
           headerName: 'Email',
           field: 'email',
           filter: true,
-          width: 225
+          width: 300
         },
         {
           headerName: 'Role',
@@ -250,6 +241,9 @@ export default {
     }
   },
   computed: {
+    getSelectedUsers () {
+      return this.gridApi.getSelectedRows()
+    },
     usersData () {
       return this.$store.state.userManagement.users
     },
@@ -272,6 +266,11 @@ export default {
     }
   },
   methods: {
+    deleteUsers () {
+      const userIds = this.getSelectedUsers.map(u => u.id)
+
+      this.$store.dispatch('userManagement/removeRecords', userIds).catch((err) => { console.log(err) })    
+    },
     setColumnFilter (column, val) {
       const filter = this.gridApi.getFilterInstance(column)
       let modelObj = null
@@ -299,7 +298,6 @@ export default {
   },
   mounted () {
     this.gridApi = this.gridOptions.api
-    console.log(this.gridApi)
   },
   created () {
     if (!moduleUserManagement.isRegistered) {

@@ -9,5 +9,6 @@
 
 export default {
   isLoading: false,
-  users: []
+  users: [],
+  verificationRequests: []
 }

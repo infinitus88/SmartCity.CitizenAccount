@@ -10,7 +10,6 @@ export default {
   name: 'CellRendererActions',
   methods: {
     editRecord () {
-      console.log(this.params.data)
       this.$router.push(`/apps/user/user-edit/${  this.params.data.id}`).catch(() => {})
 
       /*
@@ -25,7 +24,7 @@ export default {
         type: 'confirm',
         color: 'danger',
         title: 'Confirm Delete',
-        text: `You are about to delete "${this.params.data.username}"`,
+        text: `You are about to delete "${this.params.data.email}"`,
         accept: this.deleteRecord,
         acceptText: 'Delete'
       })
@@ -35,9 +34,12 @@ export default {
       this.showDeleteSuccess()
 
       /* UnComment below lines for enabling true flow if deleting user */
-      // this.$store.dispatch("userManagement/removeRecord", this.params.data.id)
-      //   .then(()   => { this.showDeleteSuccess() })
-      //   .catch(err => { console.error(err)       })
+      this.$store.dispatch('userManagement/removeRecord', this.params.data.id)
+        .then(()   => { 
+          // this.props.node.gridApi.updateRowData({ remove: [this.props.node.data]})
+          this.showDeleteSuccess() 
+        })
+        .catch(err => { console.error(err)       })
     },
     showDeleteSuccess () {
       this.$vs.notify({

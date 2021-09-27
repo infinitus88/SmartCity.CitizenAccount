@@ -1,12 +1,3 @@
-/*=========================================================================================
-  File Name: moduleCalendarActions.js
-  Description: Calendar Module Actions
-  ----------------------------------------------------------------------------------------
-  Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
-  Author: Pixinvent
-  Author URL: http://www.themeforest.net/user/pixinvent
-==========================================================================================*/
-
 import axios from '@/axios.js'
 // import { reject, resolve } from 'core-js/fn/promise'
 
@@ -55,10 +46,12 @@ export default {
     })
   },
   removeRecord ({ commit }, userId) {
+    commit('SET_LOADING', true)
     return new Promise((resolve, reject) => {
       axios.delete(`/api/users/${userId}`)
         .then((response) => {
-          commit('REMOVE_RECORD', userId)
+          commit('REMOVE_USER', userId)
+          commit('SET_LOADING', false)
           resolve(response)
         })
         .catch((error) => { reject(error) })
@@ -67,8 +60,49 @@ export default {
   removeRecords ({ commit }, userIds) {
     commit('SET_LOADING', true)
     return new Promise((resolve, reject) => {
-      axios.delete('api/users', { userIds })
+      axios.post('api/users/delete-users', { userIds })
         .then((response) => {
+          commit('REMOVE_USERS', userIds)
+          commit('SET_LOADING', false)
+          resolve(response)
+        })
+        .catch((error) => { reject(error) })
+    })
+  },
+
+  // Verification Request
+  fetchVerificationRequests ({ commit }) {
+    commit('SET_LOADING', true)
+    return new Promise((resolve, reject) => {
+      axios.get('/api/users/verification-requests')
+        .then((response) => {
+          commit('SET_VERIFICATION_REQUESTS', response.data)
+          commit('SET_LOADING', false)
+          resolve(response)
+        })
+        .catch((error) => { reject(error) })
+    })
+  },
+
+  updateVerificationRequest ({ commit }, payload) {
+    commit('SET_LOADING', true)
+    return new Promise((resolve, reject) => {
+      axios.post('/api/users/update-verif-request', payload)
+        .then((response) => {
+          commit('REMOVE_VERIFICATION_REQUEST', payload.id)
+          commit('SET_LOADING', false)
+          resolve(response)
+        })
+        .catch((error) => { reject(error) })
+    })
+  },
+
+  updateVerificationRequests ({ commit }, payload) {
+    commit('SET_LOADING', true)
+    return new Promise((resolve, reject) => {
+      axios.post('/api/users/update-verif-requests', payload)
+        .then((response) => {
+          commit('REMOVE_VERIFICATION_REQUESTS', payload.id)
           commit('SET_LOADING', false)
           resolve(response)
         })

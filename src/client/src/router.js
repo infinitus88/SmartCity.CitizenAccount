@@ -126,6 +126,20 @@ const router = new Router({
             rule: 'admin'
           }
         },
+        {
+          path: '/apps/user/verif-request-list',
+          name: 'app-verification-request-list',
+          component: () => import('@/views/apps/user/verif-request-list/VerificationRequestList.vue'),
+          meta: {
+            breadcrumb: [
+              { title: 'Home', url: '/' },
+              { title: 'User', url: '/apps/user/user-list' },
+              { title: 'Verification Request List', active: true }
+            ],
+            pageTitle: 'Verification Request List',
+            rule: 'admin'
+          }
+        },
 
         {
           path: '/apps/citizen/citizen-list',

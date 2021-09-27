@@ -25,29 +25,46 @@
               "
             >
               <div class="px-8 pt-8 register-tabs-container">
-                <div class="vx-card__title mb-4">
+                <div>
+                </div>
+                <div class="vx-card__title mb-4" align="center">
+                  <img :src="require('@/assets/images/logo/logo.png')"/>
                   <h4 class="mb-4">Request Payment</h4>
                   <p>Fill the below form to make a payment.</p>
                 </div>
 
                 <div class="clearfix">
-                  <v-select name="citizen" class="w-full" v-model="selectedCitizenId" :options="citizens" label="fullName">
-                    <template v-slot:option="citizen">
-                      <vs-avatar class="border-2 border-solid border-white" :src="citizen.photoUrl" size="40px"></vs-avatar>
-                      {{ citizen.fullName }}
-                    </template>
-                  </v-select>
+                  <div class="mt-4">
+                    <label class="vs-input--label">CitizenId</label>
+                    <v-select name="citizen" v-model="selectedCitizenId" :options="citizens" label="fullName" placeholder="Select Citizen">
+                      <template v-slot:option="citizen">
+                        <vs-avatar class="border-2 border-solid border-white" :src="citizen.photoUrl" size="40px"></vs-avatar>
+                        {{ citizen.fullName }}
+                      </template>
+                    </v-select>
+                    <!-- <span class="text-danger text-sm"  v-show="errors.has('status')">{{ errors.first('status') }}</span> -->
+                  </div>
 
-                  <vs-input
-                    v-validate="'required'"
-                    type="number"
-                    data-vv-validate-on="blur"
-                    label-placeholder="Amount"
-                    name="displayName"
-                    placeholder="Amount"
-                    v-model="amount"
-                    class="w-full"
-                  />
+                  <div class="mt-4">
+                    <label class="vs-input--label">Amount</label>
+                    <vs-input
+                      disabled
+                      icon-pack="feather"
+                      icon="icon-dollar-sign"
+                      v-model="amount"
+                      class="w-full"
+                      v-validate="{ required: true, regex: /\d+(\.\d+)?$/ }"
+                      name="amount" 
+                    />
+                    <span class="text-danger text-sm" v-show="errors.has('amount')">{{ errors.first('amount') }}</span>
+                  </div>
+
+                  <vs-button
+                    type="border"
+                    class="float-left mt-6"
+                    @click="proceedPayment()"
+                    >Cancel</vs-button
+                  >
 
                   <vs-button
                     class="float-right mt-6"
@@ -71,7 +88,7 @@ export default {
 
   data () {
     return {
-      fullName: '',
+      fullName: 'Enter CitizenId',
       selectedCitizenId: '',
       amount: this.$route.query.amount,
       orderId: this.$route.query.orderId,
