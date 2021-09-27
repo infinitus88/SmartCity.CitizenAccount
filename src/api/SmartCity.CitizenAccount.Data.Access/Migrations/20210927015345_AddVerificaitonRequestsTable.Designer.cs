@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SmartCity.CitizenAccount.Data.Access.DAL;
 
 namespace SmartCity.CitizenAccount.Data.Access.Migrations
 {
     [DbContext(typeof(MainDbContext))]
-    partial class MainDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210927015345_AddVerificaitonRequestsTable")]
+    partial class AddVerificaitonRequestsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -173,7 +175,7 @@ namespace SmartCity.CitizenAccount.Data.Access.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("CitizenId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2");
@@ -186,10 +188,6 @@ namespace SmartCity.CitizenAccount.Data.Access.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CitizenId");
-
-                    b.HasIndex("UserId");
-
                     b.ToTable("VerificationRequests");
                 });
 
@@ -198,19 +196,6 @@ namespace SmartCity.CitizenAccount.Data.Access.Migrations
                     b.HasOne("SmartCity.CitizenAccount.Data.Models.Citizen", "Citizen")
                         .WithMany()
                         .HasForeignKey("CitizenId");
-                });
-
-            modelBuilder.Entity("SmartCity.CitizenAccount.Data.Models.VerificationRequest", b =>
-                {
-                    b.HasOne("SmartCity.CitizenAccount.Data.Models.Citizen", "Citizen")
-                        .WithMany()
-                        .HasForeignKey("CitizenId");
-
-                    b.HasOne("SmartCity.CitizenAccount.Data.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

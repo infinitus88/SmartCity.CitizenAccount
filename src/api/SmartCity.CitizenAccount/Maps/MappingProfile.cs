@@ -35,6 +35,7 @@ namespace SmartCity.CitizenAccount.Maps
 
         private void UserMappings()
         {
+            // User
             CreateMap<User, UserModel>()
                 .ForMember(dst => dst.Status, opt => opt.MapFrom(src => src.Status.ToDescriptionString()));
             CreateMap<CreateUserModel, User>().AfterMap<TrimAllStringProperties>();
@@ -42,6 +43,17 @@ namespace SmartCity.CitizenAccount.Maps
             CreateMap<UpdateUserModel, User>()
                 .ForMember(dst => dst.Id, opt => opt.Ignore())
                 .ForMember(dst => dst.Status, opt => opt.MapFrom(src => (Status)Enum.Parse(typeof(Status), src.Status.Capitalize())));
+
+            // VerificationRequest
+            CreateMap<UpdateVerificationRequestModel, VerificationRequest>()
+                .ForMember(dst => dst.Status, opt => opt.MapFrom(src => (VerificationStatus)Enum.Parse(typeof(VerificationStatus), src.Status.Capitalize())));
+            CreateMap<VerificationStatus, VerificationStatusModel>()
+                .ForMember(dst => dst.Status, opt => opt.MapFrom(src => src.ToDescriptionString()));
+            CreateMap<CreateVerificationRequest, VerificationRequest>();
+            CreateMap<VerificationRequest, VerificationRequestModel>()
+                .ForMember(dst => dst.UserData, opt => opt.MapFrom(src => src.User))
+                .ForMember(dst => dst.CitizenData, opt => opt.MapFrom(src => src.Citizen))
+                .ForMember(dst => dst.Status, opt => opt.MapFrom(src => src.Status.ToDescriptionString()));
 
             // Auth
             CreateMap<UserWithToken, UserWithTokenModel>();

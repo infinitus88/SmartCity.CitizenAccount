@@ -5,15 +5,20 @@ using System.Text;
 
 namespace SmartCity.CitizenAccount.Api.Models.Payment
 {
-    public class MakePaymentModel
+    public class GiveBenefitsModel
     {
-        [Required]
-        public string ServiceName { get; set; }
+        public GiveBenefitsModel()
+        {
+            CitizenIds = new string[] { };
+        }
 
         [Required]
-        public string CitizenId { get; set; }
+        public string[] CitizenIds { get; set; }
 
         [Required]
         public decimal Amount { get; set; }
+
+        [Required]
+        public string ServiceName { get; set; }
     }
 }

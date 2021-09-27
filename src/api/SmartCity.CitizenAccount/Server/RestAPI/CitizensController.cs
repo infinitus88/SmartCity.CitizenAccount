@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SmartCity.CitizenAccount.Api.Models.Citizens;
+using SmartCity.CitizenAccount.Data.Access.Constants;
 using SmartCity.CitizenAccount.Services.CitizenAppService;
 using System;
 using System.Collections.Generic;
@@ -46,6 +48,27 @@ namespace SmartCity.CitizenAccount.Server.RestAPI
             var citizen = await _service.Create(input);
 
             return _mapper.Map<CitizenModel>(citizen);
+        }
+
+        [HttpDelete("{id}")]
+        [Authorize(Roles = Roles.Administrator)]
+        public async Task<IActionResult> Delete(string id)
+        {
+            await _service.Delete(id);
+
+            return Ok();
+        }
+
+        [HttpDelete]
+        [Authorize(Roles = Roles.Administrator)]
+        public async Task<IActionResult> DeleteUsers([FromBody] RemoveCitizensModel model)
+        {
+            foreach (var citizenId in model.CitizenIds)
+            {
+                await _service.Delete(citizenId);
+            }
+
+            return Ok();
         }
     }
 }

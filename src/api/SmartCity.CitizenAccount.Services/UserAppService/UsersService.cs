@@ -89,7 +89,6 @@ namespace SmartCity.CitizenAccount.Services.UserAppService
             user.Status = updateModel.Status;
             user.PhotoUrl = updateModel.PhotoUrl;
 
-
             await _repository.SaveAsync();
 
             return user;
@@ -116,6 +115,78 @@ namespace SmartCity.CitizenAccount.Services.UserAppService
             var user = Get(id);
             user.Password = model.Password.Trim().WithBCrypt();
             await _repository.SaveAsync();
+        }
+
+        public async Task<VerificationRequest> CreateVerificationRequest(CreateVerificationRequest model)
+        {
+            var user = GetQuery().Where(u => u.Id == model.UserId).FirstOrDefault();
+            var citizen = _repository.Query<Citizen>().Where(c => c.Id == model.CitizenId).FirstOrDefault();
+
+            if (user == null)
+            {
+                throw new NotFoundException("User is not found");
+            }
+
+            if (citizen == null)
+            {
+                throw new NotFoundException("Citizen is not found");
+            }
+            var request = _mapper.Map<VerificationRequest>(model);
+            _repository.Add(request);
+
+            await _repository.SaveAsync();
+
+            return request;
+        }
+
+        public async Task<VerificationRequest> UpdateVerificationRequest(UpdateVerificationRequestModel model)
+        {
+            var request = _repository.Query<VerificationRequest>().Where(c => c.Id == model.Id).FirstOrDefault();
+            var user = GetQuery().Where(u => u.Id == request.UserId).FirstOrDefault();
+
+            if (request == null)
+            {
+                throw new NotFoundException("Verification Request is not found");
+            }
+
+            if (user == null)
+            {
+                throw new NotFoundException("User is not found");
+            }
+
+            var updateModel = _mapper.Map<VerificationRequest>(model);
+
+            request.Status = updateModel.Status;
+            
+            if (updateModel.Status == VerificationStatus.Accepted)
+            {
+                user.CitizenId = request.CitizenId;
+                user.IsVerified = true;
+            }
+
+            await _repository.SaveAsync();
+
+            return request;
+        }
+
+        public IQueryable<VerificationRequest> GetVerificationRequests()
+        {
+            var requests = _repository.Query<VerificationRequest>().Where(r => r.Status == VerificationStatus.Pending);
+
+            return requests;
+        }
+
+        public VerificationStatus GetVerificationStatus(int userId)
+        {
+            var requests = _repository.Query<VerificationRequest>().Where(r => r.UserId == userId);
+            var latestRequest = requests.FirstOrDefault(r => r.CreationTime == requests.Max(x => x.CreationTime));
+
+            if (latestRequest == null)
+            {
+                return VerificationStatus.NotSent;
+            }
+
+            return latestRequest.Status;
         }
     }
 }

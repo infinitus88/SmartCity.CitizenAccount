@@ -30,12 +30,16 @@ namespace SmartCity.CitizenAccount.Server.RestAPI
             return new PaymentResultModel { Amount = invoice.Amount, IsSucceed = true };
         }
 
-        [Route("transfer-amount")]
-        public async Task<PaymentResultModel> TransferAmount([FromBody] MakePaymentModel model)
+        [Route("give-benefits")]
+        public async Task<PaymentResultModel> GiveBenefits([FromBody] GiveBenefitsModel model)
         {
-            var invoice = await _service.CreateGainInvoice(model);
+            foreach (var citizenId in model.CitizenIds)
+            {
+                var makePaymentModel = new MakePaymentModel { CitizenId = citizenId, Amount = model.Amount, ServiceName = model.ServiceName };
+                await _service.CreateGainInvoice(makePaymentModel);
+            }
 
-            return new PaymentResultModel { Amount = invoice.Amount, IsSucceed = true };
+            return new PaymentResultModel { Amount = model.Amount, IsSucceed = true };
         }
     }
 }

@@ -10,6 +10,7 @@ namespace SmartCity.CitizenAccount.Api.Models.Citizens
         public string Id { get; set; }
         public string FullName { get; set; }
         public string PhotoUrl { get; set; }
+        public decimal Balance { get; set; }
         public DateTime DateOfBirth { get; set; }
         public string Gender { get; set; }
 

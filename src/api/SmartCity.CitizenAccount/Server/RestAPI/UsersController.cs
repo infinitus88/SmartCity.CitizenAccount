@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SmartCity.CitizenAccount.Api.Models.Users;
 using SmartCity.CitizenAccount.Data.Access.Constants;
+using SmartCity.CitizenAccount.Maps;
 using SmartCity.CitizenAccount.Security;
 using SmartCity.CitizenAccount.Services.UserAppService;
 using System;
@@ -68,12 +70,81 @@ namespace SmartCity.CitizenAccount.Server.RestAPI
         }
 
         [HttpDelete("{id}")]
-        [Authorize]
+        [Authorize(Roles = Roles.Administrator)]
         public async Task<IActionResult> Delete(int id)
         {
             await _service.Delete(id);
 
             return Ok();
+        }
+
+        [HttpPost("delete-users")]
+        [Authorize(Roles = Roles.Administrator)]
+        public async Task<IActionResult> DeleteUsers([FromBody] RemoveUsersModel model)
+        {
+            foreach (var userId in model.UserIds)
+            {
+                await _service.Delete(userId);
+            }
+
+            return Ok();
+        }
+
+        [HttpGet("get-verif-status")]
+        [Authorize]
+        public VerificationStatusModel GetVerificationStatus()
+        {
+            var verificationStatus = _service.GetVerificationStatus(_context.User.Id);
+
+            return _mapper.Map<VerificationStatusModel>(verificationStatus);
+        }
+
+        [HttpPost("create-verif-request")]
+        [Authorize]
+        public async Task<IActionResult> CreateVerificationRequest([FromBody] CreateVerificationRequest model)
+        {
+            var request = await _service.CreateVerificationRequest(model);
+
+            return new OkObjectResult(_mapper.Map<VerificationRequestModel>(request)) { StatusCode = StatusCodes.Status201Created };
+        }
+
+        [HttpPost("update-verif-request")]
+        [Authorize(Roles = Roles.Administrator)]
+        public async Task<IActionResult> UpdateRequest([FromBody] UpdateVerificationRequestModel model)
+        {
+            await _service.UpdateVerificationRequest(model);
+
+            return Ok();
+        }
+
+        [HttpPost("update-verif-requests")]
+        [Authorize(Roles = Roles.Administrator)]
+        public async Task<IActionResult> UpdateRequests([FromBody] UpdateVerificationRequestsModel model)
+        {
+            foreach (var id in model.RequestIds)
+            {
+                await _service.UpdateVerificationRequest(new UpdateVerificationRequestModel { Id = id, Status = model.Status });
+            }
+
+            return Ok();
+        }
+
+        [HttpGet("verification-status/{id}")]
+        [Authorize]
+        public VerificationStatusModel GetVerificationStatus(int id)
+        {
+            var requestStatus = _service.GetVerificationStatus(id);
+
+            return _mapper.Map<VerificationStatusModel>(requestStatus);
+        }
+
+        [HttpGet("verification-requests")]
+        [Authorize(Roles = Roles.Administrator)]
+        public IQueryable<VerificationRequestModel> GetVerificationRequests()
+        {
+            var requests = _service.GetVerificationRequests();
+
+            return requests.ProjectTo<VerificationRequestModel>(_mapper.ConfigurationProvider);
         }
     }
 }
