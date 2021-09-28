@@ -111,11 +111,9 @@ import vSelect from 'vue-select'
 import moduleUserManagement from '@/store/user-management/moduleUserManagement.js'
 
 // Cell Renderer
-import CellRendererLink from './cell-renderer/CellRendererLink.vue'
 import CellRendererStatus from './cell-renderer/CellRendererStatus.vue'
 import CellRendererVerified from './cell-renderer/CellRendererVerified.vue'
 import CellRendererActions from './cell-renderer/CellRendererActions.vue'
-import CellRendererBalance from './cell-renderer/CellRendererBalance.vue'
 import CellRendererName from './cell-renderer/CellRendererName.vue'
 
 
@@ -125,11 +123,9 @@ export default {
     vSelect,
 
     // Cell Renderer
-    CellRendererLink,
     CellRendererStatus,
     CellRendererVerified,
     CellRendererActions,
-    CellRendererBalance,
     CellRendererName
   },
   data () {
@@ -221,7 +217,6 @@ export default {
 
       // Cell Renderer Components
       components: {
-        CellRendererLink,
         CellRendererStatus,
         CellRendererVerified,
         CellRendererActions

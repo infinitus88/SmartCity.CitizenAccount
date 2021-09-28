@@ -1,7 +1,20 @@
 import axios from '@/axios.js'
-// import { reject, resolve } from 'core-js/fn/promise'
+
 
 export default {
+
+  fetchInvoices ({ commit }) {
+    commit('SET_LOADING', true)
+    return new Promise((resolve, reject) => {
+      axios.post('/api/payment/invoices')
+        .then((response) => {
+          commit('SET_INVOICES', response.data)
+          commit('SET_LOADING', false)
+          resolve(response)
+        })
+        .catch((error) => { reject(error) })
+    })
+  },
 
   // Proceed Payment
   proceedPayment ({ commit }, payload) {

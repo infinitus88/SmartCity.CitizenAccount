@@ -305,7 +305,7 @@ export default {
       this.$store.registerModule('citizen', moduleCitizen)
       moduleCitizen.isRegistered = true
     }
-    this.$store.dispatch('citizen/fetchCitizens').catch(err => { console.error(err) })
+    this.$store.dispatch('citizen/fetchCitizens')
   }
 }
 

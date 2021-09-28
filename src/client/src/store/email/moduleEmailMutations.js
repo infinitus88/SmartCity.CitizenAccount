@@ -35,8 +35,8 @@ export default {
 
   // If your process of fetching is different than ours. Please update action and mutation
   // Maybe this mutation is redundant for you. Feel free to remove it.
-  UPDATE_UNREAD_META (state, payload) {
-  },
+  // UPDATE_UNREAD_META (state, payload) {
+  // },
   UPDATE_UNREAD_META_ON_MOVE (state, payload) {
 
     // Updating Draft meta is handled by "MOVE_MAILS_TO" mutation

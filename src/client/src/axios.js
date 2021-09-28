@@ -1,7 +1,7 @@
 // axios
 import axios from 'axios'
 
-let baseURL = 'http://smartcity-citizenaccount.azurewebsites.net'
+let baseURL = 'https://smartcity-citizenaccount.azurewebsites.net'
 
 if (process.env.NODE_ENV === 'development') baseURL = 'https://localhost:44376/'
 

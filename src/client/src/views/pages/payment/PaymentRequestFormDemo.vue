@@ -1,30 +1,18 @@
 <template>
-  <div
-    class="
-      h-screen
-      flex
-      w-full
-      bg-img
-      vx-row
-      no-gutter
-      items-center
-      justify-center
-    "
-  >
-    <div class="vx-col sm:w-1/2 md:w-1/2 lg:w-3/4 xl:w-1/4 sm:m-0 m-4">
+  <div class="h-screen flex w-full bg-img vx-row no-gutter items-center justify-center" id="page-login">
+    <div class="vx-col sm:w-1/2 md:w-1/2 lg:w-3/4 xl:w-3/5 sm:m-0 m-4">
       <vx-card>
-            <div
-              class="
-                vx-col
-                sm:w-full
-                md:w-full
-                lg:w-2/2
-                mx-auto
-                self-center
-                d-theme-dark-bg
-              "
-            >
-              <div class="px-8 pt-8 register-tabs-container">
+        <div slot="no-body" class="full-page-bg-color">
+
+          <div class="vx-row no-gutter justify-center items-center">
+
+            <div class="vx-col hidden lg:block lg:w-1/2">
+              <img src="@/assets/images/pages/payment.jpg" alt="payment" class="mx-auto">
+            </div>
+
+            <div class="vx-col sm:w-full md:w-full lg:w-1/4 d-theme-dark-bg">
+              <div class="px-8 pt-8 payment-tabs-container">
+
                 <div>
                 </div>
                 <div class="vx-card__title mb-4" align="center">
@@ -38,7 +26,7 @@
                     <label class="vs-input--label">CitizenId</label>
                     <v-select name="citizen" v-model="selectedCitizenId" :options="citizens" label="fullName" placeholder="Select Citizen">
                       <template v-slot:option="citizen">
-                        <vs-avatar class="" :src="citizen.photoUrl" size="small"></vs-avatar>
+                        <vs-avatar class="border-2 border-solid border-white" :src="citizen.photoUrl" size="40px"></vs-avatar>
                         {{ citizen.fullName }}
                       </template>
                     </v-select>
@@ -62,7 +50,7 @@
                   <vs-button
                     type="border"
                     class="float-left mt-6"
-                    @click="cancelPayment()"
+                    @click="proceedPayment()"
                     >Cancel</vs-button
                   >
 
@@ -74,6 +62,8 @@
                 </div>
               </div>
             </div>
+          </div>
+        </div>
       </vx-card>
     </div>
   </div>
@@ -102,38 +92,14 @@ export default {
         this.amount = ''
       })
     },
-    cancelPayment () {
-
-    },
     proceedPayment () {
-      this.$vs.loading()
-
       const payload = {
         citizenId: this.selectedCitizenId,
         amount: this.amount
       }
       this.$store.dispatch('citizen/proceedPayment', payload)
-        .then(() => { 
-          this.$vs.loading.close() 
-          this.$vs.notify({
-            title: 'Success',
-            text: 'Payment was successful',
-            iconPack: 'feather',
-            icon: 'icon-alert-circle',
-            color: 'success'
-          })
-        })
-        .catch(error => {
-          this.$vs.loading.close()
-          this.$vs.notify({
-            title: 'Error',
-            text: error.message,
-            iconPack: 'feather',
-            icon: 'icon-alert-circle',
-            color: 'danger'
-          })
-        })
-      // this.clearFields()
+
+      this.clearFields()
     }
   },
   computed: {
@@ -145,14 +111,9 @@ export default {
     vSelect
   },
   created () {
-    this.$vs.loading()
-    if (!moduleCitizen.isRegistered) {
-      this.$store.registerModule('citizen', moduleCitizen)
-      moduleCitizen.isRegistered = true
-    }
-    this.$store.dispatch('citizen/fetchCitizens')
-    .then(() => { this.$vs.loading.close() })
-    .catch(err => { console.error(err) })
+    this.$store.registerModule('citizen', moduleCitizen)
+
+    this.$store.dispatch('citizen/fetchCitizens') // Fetch Citizens From API
   },
   beforeDestroy () {
     this.$store.unregisterModule('citizen')
@@ -161,7 +122,7 @@ export default {
 </script>
 
 <style lang="scss">
-.register-tabs-container {
+.payment-tabs-container {
   min-height: 517px;
 
   .con-tab {
