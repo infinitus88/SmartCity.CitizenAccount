@@ -37,9 +37,9 @@ namespace SmartCity.CitizenAccount.Services.PaymentAppService
 
         public IQueryable<Invoice> GetByCitizenId(string id)
         {
-            var paymetBills = GetQuery().Where(p => p.CitizenId == id);
+            var invoices = GetQuery().Where(p => p.CitizenId == id);
 
-            return paymetBills;
+            return invoices;
         }
 
         public async Task<Invoice> CreateExpenseInvoice(MakePaymentModel model)
