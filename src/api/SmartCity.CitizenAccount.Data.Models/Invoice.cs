@@ -11,6 +11,7 @@ namespace SmartCity.CitizenAccount.Data.Models
 
         public int Id { get; set; }
         public string ServiceName { get; set; }
+        public InvoiceCategory Category { get; set; }
         public string CitizenId { get; set; }
         public virtual Citizen Citizen { get; set; }
         public decimal Amount { get; set; }

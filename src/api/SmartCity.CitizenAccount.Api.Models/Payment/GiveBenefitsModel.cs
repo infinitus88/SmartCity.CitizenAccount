@@ -17,8 +17,5 @@ namespace SmartCity.CitizenAccount.Api.Models.Payment
 
         [Required]
         public decimal Amount { get; set; }
-
-        [Required]
-        public string ServiceName { get; set; }
     }
 }

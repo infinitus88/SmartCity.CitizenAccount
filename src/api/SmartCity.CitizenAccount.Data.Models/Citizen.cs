@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SmartCity.CitizenAccount.Data.Models.Constants;
+using System;
 
 namespace SmartCity.CitizenAccount.Data.Models
 {
@@ -6,7 +7,7 @@ namespace SmartCity.CitizenAccount.Data.Models
     {
         public Citizen()
         {
-            PhotoUrl = Constants.Images.DefaultAvatar;
+            PhotoUrl = Images.DefaultAvatar;
             RegistrationDate = DateTime.Now;
             Balance = 0;
         }

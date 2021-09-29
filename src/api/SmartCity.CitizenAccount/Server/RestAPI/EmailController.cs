@@ -26,7 +26,7 @@ namespace SmartCity.CitizenAccount.Server.RestAPI
             _mapper = mapper;
         }
 
-        [Route("mails")]
+        [HttpGet("mails")]
         [Authorize]
         public IQueryable<EmailModel> GetMails([FromQuery]string filter)
         {
@@ -44,7 +44,7 @@ namespace SmartCity.CitizenAccount.Server.RestAPI
             return mails.ProjectTo<EmailModel>(_mapper.ConfigurationProvider);
         }
 
-        [Route("meta")]
+        [HttpGet("meta")]
         [Authorize]
         public EmailsMetaModel GetEmailsMeta()
         {
@@ -53,7 +53,7 @@ namespace SmartCity.CitizenAccount.Server.RestAPI
             return emailsMeta;
         }
 
-        [Route("all-mails")]
+        [HttpGet("all-mails")]
         public IQueryable<Email> GetAllMails()
         {
             var mails = _service.GetAll();
@@ -61,7 +61,7 @@ namespace SmartCity.CitizenAccount.Server.RestAPI
             return mails;
         }
 
-        [Route("send-mail")]
+        [HttpGet("send-mail")]
         [Authorize]
         public async Task<EmailModel> SendMail([FromBody] CreateEmailModel model)
         {
@@ -70,7 +70,7 @@ namespace SmartCity.CitizenAccount.Server.RestAPI
             return _mapper.Map<EmailModel>(mail);
         }
 
-        [Route("move-mails")]
+        [HttpPost("move-mails")]
         [Authorize]
         public async Task<EmailsMetaModel> MoveMails([FromBody] MoveMailsModel model)
         {
@@ -82,7 +82,7 @@ namespace SmartCity.CitizenAccount.Server.RestAPI
             return _service.GetMeta();
         }
 
-        [Route("set-starred")]
+        [HttpPost("set-starred")]
         [Authorize]
         public async Task<IActionResult> SetStarred([FromBody] SetStarredModel model)
         {
@@ -91,7 +91,7 @@ namespace SmartCity.CitizenAccount.Server.RestAPI
             return Ok();
         }
 
-        [Route("mark-unread")]
+        [HttpPost("mark-unread")]
         [Authorize]
         public async Task<EmailsMetaModel> MarkUnread([FromBody] MarkUnreadModel model)
         {

@@ -4,8 +4,4 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\SmartCity.CitizenAccount.Data.Models\SmartCity.CitizenAccount.Data.Models.csproj" />
-  </ItemGroup>
-
 </Project>

@@ -61,9 +61,11 @@ namespace SmartCity.CitizenAccount.Maps
 
         private void InvoiceMappings()
         {
-            CreateMap<MakePaymentModel, Invoice>();
+            CreateMap<MakePaymentModel, Invoice>()
+                .ForMember(dst => dst.Category, opt => opt.MapFrom(src => (InvoiceCategory)Enum.Parse(typeof(InvoiceCategory), src.Category.Capitalize())));
 
             CreateMap<Invoice, InvoiceModel>()
+                .ForMember(dst => dst.Category, opt => opt.MapFrom(src => src.Category.ToDescriptionString()))
                 .ForMember(dst => dst.InvoiceType, opt => opt.MapFrom(src => src.InvoiceType.ToDescriptionString()));
         }
 

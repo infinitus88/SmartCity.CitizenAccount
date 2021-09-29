@@ -11,6 +11,9 @@ namespace SmartCity.CitizenAccount.Api.Models.Payment
         public string ServiceName { get; set; }
 
         [Required]
+        public string Category { get; set; }
+
+        [Required]
         public string CitizenId { get; set; }
 
         [Required]

@@ -8,6 +8,7 @@ namespace SmartCity.CitizenAccount.Api.Models.Payment
     {
         public int Id { get; set; }
         public string ServiceName { get; set; }
+        public string Category { get; set; }
         public string CitizenId { get; set; }
         public decimal Amount { get; set; }
         public string InvoiceType { get; set; }
