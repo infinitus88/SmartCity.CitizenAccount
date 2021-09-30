@@ -71,7 +71,11 @@ export default {
     }
   },
   created () {
-    this.$store.registerModule('citizen', moduleCitizen)
+    if (!moduleCitizen.isRegistered) {
+      this.$store.registerModule('citizen', moduleCitizen)
+      moduleCitizen.isRegistered = true
+    }
+
     this.$store.dispatch('citizen/fetchCitizens') // Fetch Citizens From API
 
     // // Register Module UserManagement Module

@@ -101,6 +101,8 @@ export default {
       // If form is not validated or user is already login return
       if (!this.validateForm || !this.checkLogin()) return
 
+      this.$vs.loading()
+
       const payload = {
         userDetails: {
           displayName: this.displayName,
@@ -111,6 +113,16 @@ export default {
         notify: this.$vs.notify
       }
       this.$store.dispatch('auth/registerUserJWT', payload)
+        .then(() => { this.$vs.loading.close() })
+        .catch((error) => {
+          this.$vs.notify({
+            title: 'Register Attempt',
+            text: error.message,
+            iconPack: 'feather',
+            icon: 'icon-alert-circle',
+            color: 'warning'
+          })
+        })
     }
   }
 }

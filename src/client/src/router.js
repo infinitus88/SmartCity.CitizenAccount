@@ -75,6 +75,35 @@ const router = new Router({
             no_scroll: true
           }
         },
+        {
+          path: '/apps/invoice',
+          name: 'invoice-list',
+          component: () => import('./views/apps/invoice/invoice-list/InvoiceList.vue'),
+          meta: {
+            breadcrumb: [
+              { title: 'Home', url: '/' },
+              { title: 'Invoice'},
+              { title: 'List', active: true }
+            ],
+            pageTitle: 'Invoice',
+            rule: 'user',
+            no_scroll: true
+          }
+        },
+        {
+          path: '/apps/invoice/:invoiceId',
+          name: 'invoice-view',
+          component: () => import('./views/apps/invoice/InvoiceView.vue'),
+          meta: {
+            breadcrumb: [
+              { title: 'Home', url: '/' },
+              { title: 'Invoice', url: '/apps/invoice' },
+              { title: 'View', active: true }
+            ],
+            pageTitle: 'Invoice View',
+            rule: 'user'
+          }
+        },
         /*
                   Below route is for demo purpose
                   You can use this route in your app
@@ -913,7 +942,7 @@ const router = new Router({
               { title: 'Invoice', active: true }
             ],
             pageTitle: 'Invoice',
-            rule: 'editor'
+            rule: 'user'
           }
         },
 

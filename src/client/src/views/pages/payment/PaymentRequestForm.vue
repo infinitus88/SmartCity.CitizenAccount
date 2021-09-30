@@ -82,6 +82,7 @@
 <script>
 import vSelect from 'vue-select'
 import moduleCitizen from '@/store/citizen/moduleCitizen.js'
+import modulePayment from '@/store/payment/modulePayment.js'
 
 export default {
 
@@ -92,7 +93,15 @@ export default {
       selectedCitizenId: '',
       amount: this.$route.query.amount,
       orderId: this.$route.query.orderId,
-      serviceId: this.$route.query.serviceId
+      serviceId: this.$route.query.serviceId,
+
+      serviceInfo: {
+        3: { 
+          'successUrl': '', 
+          'cancelUrl': '',
+          'mark-paid': ''
+        }
+      }
     }
   },
   methods: {
@@ -102,37 +111,43 @@ export default {
         this.amount = ''
       })
     },
+    redirectToSuccessPage () {
+      window.location = 'http://catering-frontend.azurewebsites.net/checkout/result/true'
+    },
     cancelPayment () {
-
+      window.locationbar = 'https://catering-frontend.azurewebsites.net/checkout/result/false'
     },
     proceedPayment () {
       this.$vs.loading()
 
       const payload = {
         citizenId: this.selectedCitizenId,
-        amount: this.amount
+        amount: parseFloat(this.amount),
+        serviceId: parseInt(this.serviceId)
       }
-      this.$store.dispatch('citizen/proceedPayment', payload)
-        .then(() => { 
-          this.$vs.loading.close() 
-          this.$vs.notify({
-            title: 'Success',
-            text: 'Payment was successful',
-            iconPack: 'feather',
-            icon: 'icon-alert-circle',
-            color: 'success'
-          })
-        })
-        .catch(error => {
-          this.$vs.loading.close()
-          this.$vs.notify({
-            title: 'Error',
-            text: error.message,
-            iconPack: 'feather',
-            icon: 'icon-alert-circle',
-            color: 'danger'
-          })
-        })
+      // this.$store.dispatch('citizen/proceedPayment', payload)
+      //   .then(() => { 
+      //     this.$vs.loading.close() 
+      //     this.$vs.notify({
+      //       title: 'Success',
+      //       text: 'Payment was successful',
+      //       iconPack: 'feather',
+      //       icon: 'icon-alert-circle',
+      //       color: 'success'
+      //     })
+          
+      //   })
+      //   .catch(error => {
+      //     this.$vs.loading.close()
+      //     this.$vs.notify({
+      //       title: 'Error',
+      //       text: error.message,
+      //       iconPack: 'feather',
+      //       icon: 'icon-alert-circle',
+      //       color: 'danger'
+      //     })
+      //   })
+      this.redirectToSuccessPage()
       // this.clearFields()
     }
   },
@@ -150,12 +165,17 @@ export default {
       this.$store.registerModule('citizen', moduleCitizen)
       moduleCitizen.isRegistered = true
     }
+
+    if (!modulePayment.isRegistered) {
+      this.$store.registerModule('payment', modulePayment)
+      modulePayment.isRegistered = true
+    }
+
     this.$store.dispatch('citizen/fetchCitizens')
-    .then(() => { this.$vs.loading.close() })
-    .catch(err => { console.error(err) })
+      .then(() => { this.$vs.loading.close() })
+      .catch(err => { console.error(err) })
   },
   beforeDestroy () {
-    this.$store.unregisterModule('citizen')
   }
 }
 </script>

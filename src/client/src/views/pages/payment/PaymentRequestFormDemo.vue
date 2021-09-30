@@ -111,12 +111,14 @@ export default {
     vSelect
   },
   created () {
-    this.$store.registerModule('citizen', moduleCitizen)
+    if (!moduleCitizen.isRegistered) {
+      this.$store.registerModule('citizen', moduleCitizen)
+      moduleCitizen.isRegistered = true
+    }
 
     this.$store.dispatch('citizen/fetchCitizens') // Fetch Citizens From API
   },
   beforeDestroy () {
-    this.$store.unregisterModule('citizen')
   }
 }
 </script>

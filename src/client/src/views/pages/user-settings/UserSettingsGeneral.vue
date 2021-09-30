@@ -6,7 +6,7 @@
         <label class="vs-input--label">CitizenId</label>
         <v-select name="citizen" v-model="selectedCitizen" :options="citizens" label="fullName" placeholder="Select your citizenId">
           <template v-slot:option="citizen">
-            <vs-avatar class="border-2 border-solid border-white" :src="citizen.photoUrl" size="40px"></vs-avatar>
+            <vs-avatar class="border-2 border-solid border-white" :src="citizen.photoUrl" size="small"></vs-avatar>
             {{ citizen.fullName }}
           </template>
         </v-select>

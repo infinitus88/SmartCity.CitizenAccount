@@ -1,13 +1,3 @@
-<!-- =========================================================================================
-    File Name: Invoice.vue
-    Description: Invoice Page
-    ----------------------------------------------------------------------------------------
-    Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
-      Author: Pixinvent
-    Author URL: http://www.themeforest.net/user/pixinvent
-========================================================================================== -->
-
-
 <template>
   <div>
     <vs-alert color="danger" title="Invoice Not Found" :active.sync="invoice_not_found">
@@ -72,7 +62,6 @@
                             <span class="ml-2">{{ invoice_data.serviceEmail }}</span>
                         </p>
                     </div>
-
                 </div>
             </div>
 
@@ -82,7 +71,7 @@
                 <vs-table hoverFlat class="w-1/2 ml-auto mt-4" :data="invoice_data">
                     <vs-tr>
                         <vs-th class="pointer-events-none">SUBTOTAL</vs-th>
-                        <vs-td>{{ invoiceData.amount }} USD</vs-td>
+                        <vs-td>{{ invoice_data.amount }} USD</vs-td>
                     </vs-tr>
                     <vs-tr>
                         <vs-th class="pointer-events-none">DISCOUNT (0.0%)</vs-th>
@@ -90,7 +79,7 @@
                     </vs-tr>
                     <vs-tr>
                         <vs-th class="pointer-events-none">TOTAL</vs-th>
-                        <vs-td>{{ invoiceData.amount }} USD</vs-td>
+                        <vs-td>{{ invoice_data.amount }} USD</vs-td>
                     </vs-tr>
                 </vs-table>
             </div>
@@ -116,7 +105,9 @@ export default{
   data () {
     return {
       invoice_data: null,
-      invoice_not_found: false
+      invoice_not_found: false,
+
+      mailTo: ''
     }
   },
   computed: {

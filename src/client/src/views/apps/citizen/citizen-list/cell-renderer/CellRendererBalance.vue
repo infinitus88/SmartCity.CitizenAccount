@@ -1,6 +1,5 @@
 <template>
-    <span v-if="params.value">${{ params.value }}</span>
-    <span v-else>unknown</span>
+    <span>${{ params.value }}</span>
 </template>
 
 <script>

@@ -24,6 +24,13 @@ export default [
         slug: 'chat',
         icon: 'MessageSquareIcon',
         i18n: 'Chat'
+      },
+      {
+        url: '/apps/invoice',
+        name: 'Invoice',
+        slug: 'invoice',
+        icon: 'CreditCardIcon',
+        i18n: 'Invoice'
       }
     ]
   },

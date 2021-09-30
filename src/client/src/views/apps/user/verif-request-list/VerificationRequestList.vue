@@ -141,7 +141,7 @@ export default {
           headerName: 'User Name',
           field: 'userData.displayName',
           filter: true,
-          width: 400,
+          width: 350,
           cellRendererFramework: 'CellRendererUserName',
           cellClass: 'text-center'
         },
@@ -149,7 +149,7 @@ export default {
           headerName: 'Citizen Name',
           field: 'citizenData.fullName',
           filter: true,
-          width: 400,
+          width: 350,
           cellRendererFramework: 'CellRendererCitizenName',
           cellClass: 'text-center'
         },

@@ -26,7 +26,7 @@
           />
           <span class="text-danger text-sm" v-show="errors.has('amount')">{{ errors.first('amount') }}</span>
         </div>
-        <vs-button vs-button class="mt-4" @click="giveBenefits" color="primary" type="filled">Submit</vs-button>
+        <vs-button vs-button class="mt-4" @click.prevent="giveBenefits" color="primary" type="filled">Submit</vs-button>
       </vs-popup>
 
       <div class="flex flex-wrap items-center">
@@ -253,16 +253,18 @@ export default {
   },
   methods: {
     giveBenefits () {
-      console.log('giveBenenfits')
+      this.$vs.loading()
+
       const payload = {
         citizenIds: this.getSelectedCitizens.map(c => c.id),
-        amount: parseInt(this.benefitsAmount),
+        amount: parseFloat(this.benefitsAmount),
         serviceName: 'Citizen Account'
       }
 
       this.$store.dispatch('payment/giveBenefits', payload)
         .then(() => {
-          this.$store.dispatch('citizen/fetchCitizens').catch(err => { console.error(err) })
+          this.$vs.loading.close()
+          // this.$store.dispatch('citizen/fetchCitizens').then().catch(err => { console.error(err) })
           this.gridApi.refreshCells()
           this.benefitsAmount = ''
           this.benefitsPopupActive = false 
@@ -300,12 +302,18 @@ export default {
     this.gridApi = this.gridOptions.api
   },
   created () {
-    this.$store.registerModule('payment', modulePayment)
+    this.$vs.loading()
     if (!moduleCitizen.isRegistered) {
       this.$store.registerModule('citizen', moduleCitizen)
       moduleCitizen.isRegistered = true
     }
-    this.$store.dispatch('citizen/fetchCitizens')
+    if (!modulePayment.isRegistered) {
+      this.$store.registerModule('payment', modulePayment)
+      modulePayment.isRegistered = true
+    }
+    this.$store.dispatch('citizen/fetchCitizens').then(() => { this.$vs.loading.close() })
+  },
+  beforeDestroy () {
   }
 }
 
