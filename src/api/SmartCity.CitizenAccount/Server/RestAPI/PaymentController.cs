@@ -38,6 +38,14 @@ namespace SmartCity.CitizenAccount.Server.RestAPI
             return invoices.ProjectTo<InvoiceModel>(_mapper.ConfigurationProvider);
         }
 
+        [HttpGet("invoices/{id}")]
+        public InvoiceDetailModel GetInvoiceDetail(int id)
+        {
+            var invoice = _service.GetById(id);
+
+            return _mapper.Map<InvoiceDetailModel>(invoice);
+        }
+
         [HttpPost("proceed-payment")]
         public async Task<PaymentResultModel> MakePayment([FromBody] MakePaymentModel model)
         {
@@ -46,13 +54,14 @@ namespace SmartCity.CitizenAccount.Server.RestAPI
             return new PaymentResultModel { Amount = invoice.Amount, IsSucceed = true };
         }
 
+
         [HttpPost("give-benefits")]
         [Authorize(Roles = Roles.Administrator)]
         public async Task<PaymentResultModel> GiveBenefits([FromBody] GiveBenefitsModel model)
         {
             foreach (var citizenId in model.CitizenIds)
             {
-                var makePaymentModel = new MakePaymentModel { Category = "benefits", CitizenId = citizenId, Amount = model.Amount, ServiceName = "City Administration" };
+                var makePaymentModel = new MakePaymentModel { Category = "benefits", CitizenId = citizenId, Amount = model.Amount, ServiceId = 1 };
                 await _service.CreateGainInvoice(makePaymentModel);
             }
 

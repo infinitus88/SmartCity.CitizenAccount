@@ -8,7 +8,7 @@ namespace SmartCity.CitizenAccount.Api.Models.Payment
     public class MakePaymentModel
     {
         [Required]
-        public string ServiceName { get; set; }
+        public int ServiceId { get; set; }
 
         [Required]
         public string Category { get; set; }
