@@ -14,6 +14,7 @@ using SmartCity.CitizenAccount.Api.Common.Exceptions;
 using SmartCity.CitizenAccount.Data.Access.Common;
 using SmartCity.CitizenAccount.Data.Access.Helpers;
 using SmartCity.CitizenAccount.Data.Models.Constants;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace SmartCity.CitizenAccount.Services.AuthAppService
 {
@@ -78,12 +79,33 @@ namespace SmartCity.CitizenAccount.Services.AuthAppService
             await _usersService.ChangePassword(_context.User.Id, model);
         }
 
-        public string RefreshToken()
+        public UserWithToken RefreshToken(string token)
         {
-            var expiresIn = DateTime.Now + TokenAuthOption.ExpiresSpan;
-            var accessToken = _tokenBuilder.Build(_context.User.Email, _context.User.Role, expiresIn);
+            var tokenHanlder = new JwtSecurityTokenHandler();
+            var securityToken = (JwtSecurityToken)tokenHanlder.ReadToken(token);
+            if (securityToken == null)
+            {
+                throw new BadRequestException("Token is not valid!");
+            }
+            var email = securityToken.Claims.FirstOrDefault(c => c.Type == "unique_name")?.Value;
 
-            return accessToken;
+            var user = (from u in _repository.Query<User>().Where(u => u.Status == Status.Active)
+                        where u.Email == email && !u.IsDeleted
+                        select u).FirstOrDefault();
+
+            if (user == null)
+            {
+                throw new NotFoundException("User is not found");
+            }
+
+            var expiresIn = DateTime.Now + TokenAuthOption.ExpiresSpan;
+            var accessToken = _tokenBuilder.Build(user.Email, user.Role, expiresIn);
+
+            return new UserWithToken
+            {
+                AccessToken = accessToken,
+                UserData = user
+            };
         }
     }
 }

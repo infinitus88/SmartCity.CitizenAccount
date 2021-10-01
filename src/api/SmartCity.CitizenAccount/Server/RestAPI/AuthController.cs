@@ -51,13 +51,13 @@ namespace SmartCity.CitizenAccount.Server.RestAPI
             await _service.ChangePassword(model);
         }
 
-        [HttpGet("refresh-token")]
-        [Authorize]
-        public ActionResult<RefreshTokenModel> RefreshToken()
-        {
-            string accessToken = _service.RefreshToken();
 
-            return Ok(new RefreshTokenModel { AccessToken = accessToken });
+        [HttpPost("refresh-token")]
+        public UserWithTokenModel RefreshToken([FromBody] RefreshTokenModel model)
+        {
+            var userWithToken = _service.RefreshToken(model.AccessToken);
+
+            return _mapper.Map<UserWithTokenModel>(userWithToken);
         }
     }
 }

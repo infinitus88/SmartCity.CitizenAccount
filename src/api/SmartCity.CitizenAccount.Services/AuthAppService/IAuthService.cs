@@ -11,6 +11,6 @@ namespace SmartCity.CitizenAccount.Services.AuthAppService
         UserWithToken Authenticate(string email, string password);
         Task<User> Register(RegisterModel model);
         Task ChangePassword(ChangeUserPasswordModel model);
-        string RefreshToken();
+        UserWithToken RefreshToken(string token);
     }
 }
