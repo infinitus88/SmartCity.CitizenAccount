@@ -124,6 +124,7 @@
 
 <script>
 import modulePayment from '@/store/payment/modulePayment.js'
+import moduleUser from '@/store/user/moduleUser.js'
 
 export default {
   components: {
@@ -138,7 +139,7 @@ export default {
   },
   computed: {
     isVerified () {
-      return this.$store.state.AppActiveUser.isVerified
+      return this.$store.getters['user/getVerificationStatus'] === 'accepted'
     },
     currentPage () {
       if (this.isMounted) {
@@ -154,6 +155,9 @@ export default {
     }
   },
   methods: {
+    verificationStatus () {
+      return this.$store.getters['user/getVerificationStatus']
+    },
     capitalize (str) {
       return str.slice(0, 1).toUpperCase() + str.slice(1, str.length)
     },
@@ -174,10 +178,18 @@ export default {
       this.$store.registerModule('payment', modulePayment)
       modulePayment.isRegistered = true
     }
-    this.$store.dispatch('payment/fetchInvoices')
+    if (!moduleUser.isRegistered) {
+      this.$store.registerModule('user', moduleUser)
+      moduleUser.isRegistered = true
+    }
+
+    this.$store.dispatch('user/fetchVerificationStatus')
+    this.$store.dispatch('payment/fetchInvoices').then(() => { this.isMounted = true })
   },
   mounted () {
-    this.isMounted = true
+    // this.isMounted = true
+  },
+  beforeDestroy () {
   }
 }
 </script>

@@ -60,6 +60,7 @@ import VueElementLoading from 'vue-element-loading'
 import vSelect from 'vue-select'
 
 import moduleCitizen from '@/store/citizen/moduleCitizen.js'
+import moduleUser from '@/store/user/moduleUser.js'
 
 export default {
   data () {
@@ -119,14 +120,20 @@ export default {
     }
   },
   created () {
-    this.$store.registerModule('citizen', moduleCitizen)
+    if (!moduleCitizen.isRegistered) {
+      this.$store.registerModule('citizen', moduleCitizen)
+      moduleCitizen.isRegistered = true
+    }
+    if (!moduleUser.isRegistered) {
+      this.$store.registerModule('user', moduleUser)
+      moduleUser.isRegistered = true
+    }
 
     this.$store.dispatch('citizen/fetchCitizens') // Fetch Citizens From API
-    
     this.$store.dispatch('user/fetchVerificationStatus').catch((err) => { console.log(err) })
   },
   beforeDestroy () {
-    this.$store.unregisterModule('citizen')
+    // this.$store.unregisterModule('citizen')
   }
 }
 </script>

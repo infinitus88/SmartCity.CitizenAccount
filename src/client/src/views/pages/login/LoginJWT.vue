@@ -22,6 +22,7 @@
         icon-pack="feather"
         label-placeholder="Password"
         v-model="password"
+        @keyup.enter="loginJWT"
         class="w-full mt-6" />
     <span class="text-danger text-sm">{{ errors.first('password') }}</span>
 
@@ -31,7 +32,7 @@
     </div>
     <div class="flex flex-wrap justify-between mb-3">
       <vs-button  type="border" @click="registerUser">Register</vs-button>
-      <vs-button :disabled="!validateForm" @click="loginJWT">Login</vs-button>
+      <vs-button :disabled="!validateForm"  @click="loginJWT">Login</vs-button>
     </div>
   </div>
 </template>

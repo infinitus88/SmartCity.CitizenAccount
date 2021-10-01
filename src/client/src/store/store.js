@@ -36,7 +36,7 @@ export default new Vuex.Store({
     // calendar: moduleCalendar,
     // chat: moduleChat,
     // email: moduleEmail,
-    user: moduleUser,
+    // user: moduleUser,
     auth: moduleAuth
   },
   strict: process.env.NODE_ENV !== 'production'

@@ -27,11 +27,16 @@
             <table>
               <tr>
                 <td class="font-semibold">Name</td>
-                <td>{{ user_data.name }}</td>
+                <td>{{ user_data.displayName }}</td>
               </tr>
               <tr>
                 <td class="font-semibold">Email</td>
                 <td>{{ user_data.email }}</td>
+              </tr>
+              <tr>
+                <td class="font-semibold">CitizenId</td>
+                <td v-if="user_data.citizenId">{{ user_data.citizenId }}</td>
+                <td v-else>not filled</td>
               </tr>
             </table>
           </div>
@@ -81,20 +86,18 @@ export default {
         type: 'confirm',
         color: 'danger',
         title: 'Confirm Delete',
-        text: `You are about to delete "${this.user_data.username}"`,
+        text: `You are about to delete "${this.user_data.email}"`,
         accept: this.deleteRecord,
         acceptText: 'Delete'
       })
     },
     deleteRecord () {
-      /* Below two lines are just for demo purpose */
-      this.$router.push({name:'app-user-list'})
-      this.showDeleteSuccess()
-
-      /* UnComment below lines for enabling true flow if deleting user */
-      // this.$store.dispatch("userManagement/removeRecord", this.user_data.id)
-      //   .then(()   => { this.$router.push({name:'app-user-list'}); this.showDeleteSuccess() })
-      //   .catch(err => { console.error(err)       })
+      this.$store.dispatch('userManagement/removeRecord', this.user_data.id)
+        .this(() => {
+          this.$router.push({name:'app-user-list'})
+          this.showDeleteSuccess()
+        })
+        .catch((err) => console.error(err))
     },
     showDeleteSuccess () {
       this.$vs.notify({

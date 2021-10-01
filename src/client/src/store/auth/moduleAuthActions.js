@@ -92,12 +92,18 @@ export default {
   fetchAccessToken ({ commit }) {
     return new Promise((resolve) => {
       jwt.refreshToken().then(response => { 
-        localStorage.setItem('accessToken', response.data.accessToken)
+        if (response.data) {
+          localStorage.setItem('accessToken', response.data.accessToken)
 
-        // // Set bearer token in axios
-        commit('SET_BEARER', response.data.accessToken)
+          // // Set bearer token in axios
+          commit('SET_BEARER', response.data.accessToken)   
+          commit('UPDATE_USER_INFO', response.data.userData, {root: true})
 
-        resolve(response) 
+          resolve(response) 
+        } else {
+          localStorage.removeItem('userInfo')
+          router.push('/pages/login')
+        }
       })
     })
   }

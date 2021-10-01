@@ -3,6 +3,15 @@ import store from '../../../../store/store.js'
 
 // Token Refresh
 let isAlreadyFetchingAccessToken = false
+let subscribers = []
+
+function onAccessTokenFetched (access_token) {
+  subscribers = subscribers.filter(callback => callback(access_token))
+}
+
+function addSubscriber (callback) {
+  subscribers.push(callback)
+}
 
 export default {
   init () {
@@ -10,20 +19,27 @@ export default {
       return response
     }, function (error) {
       // const { config, response: { status } } = error
-      const { response } = error
-  
+      const { config, response } = error
+      const originalRequest = config
 
       // if (status === 401) {
       if (response && response.status === 401) {
         if (!isAlreadyFetchingAccessToken) {
           isAlreadyFetchingAccessToken = true
           store.dispatch('auth/fetchAccessToken')
-            .then(() => {
+            .then((access_token) => {
               isAlreadyFetchingAccessToken = false
-              // onAccessTokenFetched(access_token)
+              onAccessTokenFetched(access_token)
             })
         }
-        return
+
+        const retryOriginalRequest = new Promise((resolve) => {
+          addSubscriber(response => {
+            originalRequest.headers.Authorization = `Bearer ${response.data.accessToken}`
+            resolve(axios(originalRequest))
+          })
+        })
+        return retryOriginalRequest
       }
       return Promise.reject(error)
     })
@@ -42,6 +58,7 @@ export default {
     })
   },
   refreshToken () {
-    return axios.get('/api/auth/refresh-token', { headers: { 'Authorization': `Bearer ${localStorage.getItem('accessToken')}`} })
+    // return axios.get('/api/auth/refresh-token', { headers: { 'Authorization': `Bearer ${localStorage.getItem('accessToken')}`} })
+    return axios.post('/api/auth/refresh-token', { accessToken: localStorage.getItem('accessToken') })
   }
 }

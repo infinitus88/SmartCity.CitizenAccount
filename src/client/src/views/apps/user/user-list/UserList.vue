@@ -190,7 +190,7 @@ export default {
           headerName: 'Role',
           field: 'role',
           filter: true,
-          width: 150
+          width: 135
         },
         {
           headerName: 'Status',
@@ -210,7 +210,7 @@ export default {
         {
           headerName: 'Actions',
           field: 'transactions',
-          width: 150,
+          width: 130,
           cellRendererFramework: 'CellRendererActions'
         }
       ],

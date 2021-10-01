@@ -115,7 +115,8 @@ export default {
       window.location = 'http://catering-frontend.azurewebsites.net/checkout/result/true'
     },
     cancelPayment () {
-      window.locationbar = 'https://catering-frontend.azurewebsites.net/checkout/result/false'
+      this.$vs.loading()
+      window.location = 'https://catering-frontend.azurewebsites.net/checkout/result/false'
     },
     proceedPayment () {
       this.$vs.loading()

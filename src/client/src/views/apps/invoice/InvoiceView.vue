@@ -125,7 +125,7 @@ export default{
     this.$emit('setAppClasses', 'invoice-page')
   },
   created () {
-    // Register Module UserManagement Module
+    // Register Module Payment Module
     if (!modulePayment.isRegistered) {
       this.$store.registerModule('payment', modulePayment)
       modulePayment.isRegistered = true
