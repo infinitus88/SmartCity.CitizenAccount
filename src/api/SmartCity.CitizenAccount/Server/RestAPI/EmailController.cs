@@ -61,7 +61,7 @@ namespace SmartCity.CitizenAccount.Server.RestAPI
             return mails;
         }
 
-        [HttpGet("send-mail")]
+        [HttpPost("send-mail")]
         [Authorize]
         public async Task<EmailModel> SendMail([FromBody] CreateEmailModel model)
         {

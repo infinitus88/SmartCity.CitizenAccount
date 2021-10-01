@@ -5,6 +5,7 @@ using SmartCity.CitizenAccount.Api.Models.Payment;
 using SmartCity.CitizenAccount.Api.Models.Users;
 using SmartCity.CitizenAccount.Data.Access.Common;
 using SmartCity.CitizenAccount.Data.Models;
+using SmartCity.CitizenAccount.Data.Models.Constants;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -65,13 +66,20 @@ namespace SmartCity.CitizenAccount.Maps
                 .ForMember(dst => dst.Category, opt => opt.MapFrom(src => (InvoiceCategory)Enum.Parse(typeof(InvoiceCategory), src.Category.Capitalize())));
 
             CreateMap<Invoice, InvoiceModel>()
+                .ForMember(dst => dst.ServiceName, opt => opt.MapFrom(src => Data.Models.Constants.Services.Get[src.ServiceId].Name))
                 .ForMember(dst => dst.Category, opt => opt.MapFrom(src => src.Category.ToDescriptionString()))
                 .ForMember(dst => dst.InvoiceType, opt => opt.MapFrom(src => src.InvoiceType.ToDescriptionString()));
+
+            CreateMap<Invoice, InvoiceDetailModel>()
+                .ForMember(dst => dst.CitizenName, opt => opt.MapFrom(src => src.Citizen.FullName))
+                .ForMember(dst => dst.ServiceEmail, opt => opt.MapFrom(src => Data.Models.Constants.Services.Get[src.ServiceId].Email))
+                .ForMember(dst => dst.ServiceName, opt => opt.MapFrom(src => Data.Models.Constants.Services.Get[src.ServiceId].Name));
         }
 
         private void EmailMappings()
         {
-            CreateMap<Email, EmailModel>();
+            CreateMap<Email, EmailModel>()
+                .ForMember(dst => dst.Time, opt => opt.MapFrom(src => src.Time.ToString("ddd MMM dd yyyy HH:mm:ss 'GMT'K '(GMT)'", new CultureInfo("en-us"))));
             CreateMap<CreateEmailModel, Email>();
         }
     }

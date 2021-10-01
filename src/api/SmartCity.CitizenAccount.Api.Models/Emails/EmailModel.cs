@@ -13,7 +13,7 @@ namespace SmartCity.CitizenAccount.Api.Models.Emails
         public string Subject { get; set; }
         public string Message { get; set; }
         public bool IsStarred { get; set; }
-        public DateTime Time { get; set; }
+        public string Time { get; set; }
         public string Folder { get; set; }
         public bool Unread { get; set; }
     }
