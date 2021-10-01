@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using SmartCity.CitizenAccount.Api.Common.Exceptions;
 using SmartCity.CitizenAccount.Api.Models.Payment;
 using SmartCity.CitizenAccount.Data.Access.DAL.Repositories;
@@ -33,6 +34,19 @@ namespace SmartCity.CitizenAccount.Services.PaymentAppService
         public IQueryable<Invoice> Get()
         {
             return GetQuery();
+        }
+
+        public Invoice GetById(int id)
+        {
+            var invoice = GetQuery().Where(i => i.Id == id).Include(i => i.Citizen).FirstOrDefault();
+
+            if (invoice == null)
+            {
+                throw new NotFoundException("Invoice is not found");
+            }
+
+
+            return invoice;
         }
 
         public IQueryable<Invoice> GetByCitizenId(string id)

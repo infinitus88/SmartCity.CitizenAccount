@@ -10,6 +10,7 @@ namespace SmartCity.CitizenAccount.Services.PaymentAppService
     public interface IPaymentService
     {
         IQueryable<Invoice> Get();
+        Invoice GetById(int id);
         IQueryable<Invoice> GetByCitizenId(string id);
         Task<Invoice> CreateExpenseInvoice(MakePaymentModel model);
         Task<Invoice> CreateGainInvoice(MakePaymentModel model);
