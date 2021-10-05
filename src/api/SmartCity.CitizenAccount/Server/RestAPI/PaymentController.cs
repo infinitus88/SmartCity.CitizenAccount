@@ -44,14 +44,21 @@ namespace SmartCity.CitizenAccount.Server.RestAPI
             return _mapper.Map<InvoiceDetailModel>(invoice);
         }
 
-        [HttpPost("proceed-payment")]
+        [HttpPost("make-payment")]
         public async Task<PaymentResultModel> MakePayment([FromBody] MakePaymentModel model)
         {
             var invoice = await _service.CreateExpenseInvoice(model);
 
+
+
             return new PaymentResultModel { Amount = invoice.Amount, IsSucceed = true };
         }
 
+        [HttpPost("mark-paid")]
+        public IActionResult TestMethod([FromBody] MarkPaidModel model)
+        {
+            return Ok();
+        }
 
         [HttpPost("give-benefits")]
         [Authorize(Roles = Roles.Administrator)]

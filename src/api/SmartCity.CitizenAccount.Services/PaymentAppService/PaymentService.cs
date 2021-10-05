@@ -79,7 +79,7 @@ namespace SmartCity.CitizenAccount.Services.PaymentAppService
                 throw new NotFoundException("User is not found");
             }
 
-            if (user.Balance >= model.Amount)
+            if (user.Balance < model.Amount)
             {
                 throw new BadRequestException("Not enough funds in the balance");
             }

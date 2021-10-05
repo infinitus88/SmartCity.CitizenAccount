@@ -74,7 +74,8 @@ namespace SmartCity.CitizenAccount.Maps
             CreateMap<Invoice, InvoiceDetailModel>()
                 .ForMember(dst => dst.CitizenName, opt => opt.MapFrom(src => src.Citizen.FullName))
                 .ForMember(dst => dst.ServiceEmail, opt => opt.MapFrom(src => src.Service.Email))
-                .ForMember(dst => dst.ServiceName, opt => opt.MapFrom(src => src.Service.Name));
+                .ForMember(dst => dst.ServiceName, opt => opt.MapFrom(src => src.Service.Name))
+                .ForMember(dst => dst.ServiceImage, opt => opt.MapFrom(src => src.Service.ImageUrl));
 
             // Service
             CreateMap<Service, ServiceModel>();

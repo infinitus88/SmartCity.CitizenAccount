@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using SmartCity.CitizenAccount.Data.Access.DAL;
+using SmartCity.CitizenAccount.Filters;
 using SmartCity.CitizenAccount.IoC;
 using SmartCity.CitizenAccount.Security.Auth;
 using System;
@@ -38,6 +39,7 @@ namespace SmartCity.CitizenAccount
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddSwaggerGen();
             services.AddControllers();
+            services.AddMvc(options => { options.Filters.Add(new ApiExceptionFilter()); });
             services.AddCors(options =>
             {
                 options.AddPolicy("VueCorsPolicy", builder =>

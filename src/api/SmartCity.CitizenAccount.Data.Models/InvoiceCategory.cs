@@ -16,7 +16,7 @@ namespace SmartCity.CitizenAccount.Data.Models
         [Description("education")]
         Education = 3,
 
-        [Description("real_estate")]
-        RealEstate = 4
+        [Description("other")]
+        Other = 4
     }
 }
