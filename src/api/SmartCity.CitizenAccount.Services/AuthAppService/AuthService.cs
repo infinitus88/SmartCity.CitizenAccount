@@ -81,13 +81,7 @@ namespace SmartCity.CitizenAccount.Services.AuthAppService
 
         public UserWithToken RefreshToken(string token)
         {
-            var tokenHanlder = new JwtSecurityTokenHandler();
-            var securityToken = (JwtSecurityToken)tokenHanlder.ReadToken(token);
-            if (securityToken == null)
-            {
-                throw new BadRequestException("Token is not valid!");
-            }
-            var email = securityToken.Claims.FirstOrDefault(c => c.Type == "unique_name")?.Value;
+            var email = _tokenBuilder.GetUniqueNameByToken(token);
 
             var user = (from u in _repository.Query<User>().Where(u => u.Status == Status.Active)
                         where u.Email == email && !u.IsDeleted

@@ -1,7 +1,9 @@
 ﻿using Microsoft.IdentityModel.Tokens;
+using SmartCity.CitizenAccount.Api.Common.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Security.Principal;
 
@@ -32,6 +34,19 @@ namespace SmartCity.CitizenAccount.Security.Auth
             });
 
             return handler.WriteToken(securityToken);
+        }
+
+        public string GetUniqueNameByToken(string token)
+        {
+            var handler = new JwtSecurityTokenHandler();
+            var securityToken = (JwtSecurityToken)handler.ReadToken(token);
+            if (securityToken == null)
+            {
+                throw new BadRequestException("Token is not valid!");
+            }
+            var uniqueName = securityToken.Claims.FirstOrDefault(c => c.Type == "unique_name")?.Value; var tokenHanlder = new JwtSecurityTokenHandler();
+
+            return uniqueName;
         }
     }
 }

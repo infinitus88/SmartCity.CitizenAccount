@@ -22,7 +22,7 @@ namespace SmartCity.CitizenAccount.Maps
             CitizenMappings();
             UserMappings();
             EmailMappings();
-            InvoiceMappings();
+            PaymentMappings();
         }
 
         private void CitizenMappings()
@@ -60,26 +60,33 @@ namespace SmartCity.CitizenAccount.Maps
             CreateMap<UserWithToken, UserWithTokenModel>();
         }
 
-        private void InvoiceMappings()
+        private void PaymentMappings()
         {
+            // Invoice
             CreateMap<MakePaymentModel, Invoice>()
                 .ForMember(dst => dst.Category, opt => opt.MapFrom(src => (InvoiceCategory)Enum.Parse(typeof(InvoiceCategory), src.Category.Capitalize())));
 
             CreateMap<Invoice, InvoiceModel>()
-                .ForMember(dst => dst.ServiceName, opt => opt.MapFrom(src => Data.Models.Constants.Services.Get[src.ServiceId].Name))
+                .ForMember(dst => dst.ServiceName, opt => opt.MapFrom(src => src.Service.Name))
                 .ForMember(dst => dst.Category, opt => opt.MapFrom(src => src.Category.ToDescriptionString()))
                 .ForMember(dst => dst.InvoiceType, opt => opt.MapFrom(src => src.InvoiceType.ToDescriptionString()));
 
             CreateMap<Invoice, InvoiceDetailModel>()
                 .ForMember(dst => dst.CitizenName, opt => opt.MapFrom(src => src.Citizen.FullName))
-                .ForMember(dst => dst.ServiceEmail, opt => opt.MapFrom(src => Data.Models.Constants.Services.Get[src.ServiceId].Email))
-                .ForMember(dst => dst.ServiceName, opt => opt.MapFrom(src => Data.Models.Constants.Services.Get[src.ServiceId].Name));
+                .ForMember(dst => dst.ServiceEmail, opt => opt.MapFrom(src => src.Service.Email))
+                .ForMember(dst => dst.ServiceName, opt => opt.MapFrom(src => src.Service.Name));
+
+            // Service
+            CreateMap<Service, ServiceModel>();
+            CreateMap<Service, ServiceDetailModel>().ForMember(dst => dst.RegistrationDate, opt => opt.MapFrom(src => src.RegistrationDate.ToEngCultureFormat()));
+            CreateMap<CreateServiceModel, Service>();
+            CreateMap<UpdateServiceModel, Service>().ForMember(dst => dst.RegistrationDate, opt => opt.Ignore());
         }
 
         private void EmailMappings()
         {
             CreateMap<Email, EmailModel>()
-                .ForMember(dst => dst.Time, opt => opt.MapFrom(src => src.Time.ToString("ddd MMM dd yyyy HH:mm:ss 'GMT'K '(GMT)'", new CultureInfo("en-us"))));
+                .ForMember(dst => dst.Time, opt => opt.MapFrom(src => src.Time.ToEngCultureFormat()));
             CreateMap<CreateEmailModel, Email>();
         }
     }
@@ -105,6 +112,14 @@ namespace SmartCity.CitizenAccount.Maps
                     stringProperty.SetValue(destination, currentValue.Trim(), null);
                 }
             }
+        }
+    }
+
+    internal static class DateTimeExtensions
+    {
+        public static string ToEngCultureFormat(this DateTime val)
+        {
+            return val.ToString("ddd MMM dd yyyy HH:mm:ss 'GMT'K '(GMT)'", new CultureInfo("en-us"));
         }
     }
 

@@ -81,14 +81,7 @@ namespace SmartCity.CitizenAccount.Services.UserAppService
             //    throw new BadRequestException("The email is already in use");
             //}
 
-            user.About = updateModel.About;
-            user.CitizenId = updateModel.CitizenId;
-            user.DisplayName = updateModel.DisplayName;
-            user.IsVerified = updateModel.IsVerified;
-            user.Role = updateModel.Role;
-            user.Status = updateModel.Status;
-            user.PhotoUrl = updateModel.PhotoUrl;
-
+            _mapper.Map(user, updateModel);
             await _repository.SaveAsync();
 
             return user;

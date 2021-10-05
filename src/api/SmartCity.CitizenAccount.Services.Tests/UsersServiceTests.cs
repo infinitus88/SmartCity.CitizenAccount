@@ -141,14 +141,14 @@ namespace SmartCity.CitizenAccount.Services.Tests
         [Fact]
         public async Task UpdateShouldUpdateUserFields()
         {
-            var user = new User { Id = _random.Next() };
+            var user = new User { Id = _random.Next(), Status = Status.Active };
             _usersList.Add(user);
 
             var model = new UpdateUserModel
             {
                 Email = _random.Next().ToString(),
                 DisplayName = _random.Next().ToString(),
-                PhotoUrl = _random.Next().ToString()
+                PhotoUrl = _random.Next().ToString(),
             };
 
             var result = await _service.Update(user.Id, model);

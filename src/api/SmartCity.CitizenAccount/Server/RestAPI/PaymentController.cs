@@ -19,21 +19,19 @@ namespace SmartCity.CitizenAccount.Server.RestAPI
     public class PaymentController : ControllerBase
     {
         private readonly IPaymentService _service;
-        private readonly ISecurityContext _context;
         private readonly IMapper _mapper;
 
-        public PaymentController(IPaymentService service, IMapper mapper, ISecurityContext context)
+        public PaymentController(IPaymentService service, IMapper mapper)
         {
             _service = service;
             _mapper = mapper;
-            _context = context;
         }
 
         [HttpGet("invoices")]
         [Authorize]
         public IQueryable<InvoiceModel> GetInvoices()
         {
-            var invoices = _service.GetByCitizenId(_context.User.CitizenId);
+            var invoices = _service.GetRelatedInvoices();
 
             return invoices.ProjectTo<InvoiceModel>(_mapper.ConfigurationProvider);
         }
@@ -66,6 +64,47 @@ namespace SmartCity.CitizenAccount.Server.RestAPI
             }
 
             return new PaymentResultModel { Amount = model.Amount, IsSucceed = true };
+        }
+
+        [HttpGet("services")]
+        public IQueryable<ServiceDetailModel> GetServices()
+        {
+            var service = _service.GetServices();
+
+            return service.ProjectTo<ServiceDetailModel>(_mapper.ConfigurationProvider);
+        }
+
+        [HttpGet("services/{id}")]
+        public ServiceDetailModel GetServiceDetail(int id)
+        {
+            var service = _service.GetServiceById(id);
+
+            return _mapper.Map<ServiceDetailModel>(service);
+        }
+
+
+        [HttpPost("add-service")]
+        public async Task<ServiceDetailModel> AddService([FromBody] CreateServiceModel model)
+        {
+            var service = await _service.CreateService(model);
+
+            return _mapper.Map<ServiceDetailModel>(service);
+        }
+
+        [HttpPost("update-service/{id}")]
+        public async Task<ServiceDetailModel> UpdateService(int id, [FromBody] UpdateServiceModel model)
+        {
+            var service = await _service.UpdateService(id, model);
+
+            return _mapper.Map<ServiceDetailModel>(service);
+        }
+
+        [HttpDelete("delete-service/{id}")]
+        public async Task<IActionResult> DeleteService(int id)
+        {
+            await _service.DeleteService(id);
+
+            return Ok();
         }
     }
 }

@@ -18,13 +18,11 @@ namespace SmartCity.CitizenAccount.Services.EmailsAppService
         private readonly IGenericRepository _repository;
         private readonly IUsersService _userService;
         private readonly ISecurityContext _context;
-        private readonly IMapper _mapper;
 
-        public EmailService(IGenericRepository repository, IUsersService userService, IMapper mapper, ISecurityContext context)
+        public EmailService(IGenericRepository repository, IUsersService userService, ISecurityContext context)
         {
             _repository = repository;
             _userService = userService;
-            _mapper = mapper;
             _context = context;
         }
 
@@ -81,7 +79,7 @@ namespace SmartCity.CitizenAccount.Services.EmailsAppService
 
             await _repository.SaveAsync();
 
-            return recieversgMail;
+            return sendersMail;
         }
 
         public async Task<Email> UpdateFolder(int id, string folderName)
@@ -93,8 +91,9 @@ namespace SmartCity.CitizenAccount.Services.EmailsAppService
                 throw new NotFoundException("Email is not found");
             }
 
-            mail.Folder = folderName;
+            if (mail.Folder == folderName) return mail;
 
+            mail.Folder = folderName;
             await _repository.SaveAsync();
 
             return mail;
@@ -109,8 +108,9 @@ namespace SmartCity.CitizenAccount.Services.EmailsAppService
                 throw new NotFoundException("Email is not found");
             }
 
-            mail.IsStarred = value;
+            if (mail.IsStarred == value) return mail;
 
+            mail.IsStarred = value;
             await _repository.SaveAsync();
 
             return mail;
