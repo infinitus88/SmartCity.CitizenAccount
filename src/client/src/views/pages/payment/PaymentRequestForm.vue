@@ -31,6 +31,7 @@
                   <img :src="require('@/assets/images/logo/logo.png')"/>
                   <h4 class="mb-4">Request Payment</h4>
                   <p>Fill the below form to make a payment.</p>
+                  <h3 class="mt-4">{{ serviceInfo.serviceName }}</h3>
                 </div>
 
                 <div class="clearfix">
@@ -94,13 +95,13 @@ export default {
       amount: this.$route.query.amount,
       orderId: this.$route.query.orderId,
       serviceId: this.$route.query.serviceId,
+      category: this.$route.query.category,
 
       serviceInfo: {
-        3: { 
-          'successUrl': '', 
-          'cancelUrl': '',
-          'mark-paid': ''
-        }
+        serviceName: '',
+        successUrl: '', 
+        cancelUrl: '',
+        markPaidUrl: ''
       }
     }
   },
@@ -112,11 +113,11 @@ export default {
       })
     },
     redirectToSuccessPage () {
-      window.location = 'http://catering-frontend.azurewebsites.net/checkout/result/true'
+      window.location = this.serviceInfo.successUrl
     },
     cancelPayment () {
       this.$vs.loading()
-      window.location = 'https://catering-frontend.azurewebsites.net/checkout/result/false'
+      window.location = this.serviceInfo.cancelUrl
     },
     proceedPayment () {
       this.$vs.loading()
@@ -124,10 +125,11 @@ export default {
       const payload = {
         citizenId: this.selectedCitizenId,
         amount: parseFloat(this.amount),
-        serviceId: parseInt(this.serviceId)
+        serviceId: parseInt(this.serviceId),
+        category: this.category
       }
-      // this.$store.dispatch('citizen/proceedPayment', payload)
-      //   .then(() => { 
+      // this.$store.dispatch('payment/proceedPayment', payload)
+      //   .then(() => {
       //     this.$vs.loading.close() 
       //     this.$vs.notify({
       //       title: 'Success',
@@ -136,7 +138,6 @@ export default {
       //       icon: 'icon-alert-circle',
       //       color: 'success'
       //     })
-          
       //   })
       //   .catch(error => {
       //     this.$vs.loading.close()
@@ -149,7 +150,6 @@ export default {
       //     })
       //   })
       this.redirectToSuccessPage()
-      // this.clearFields()
     }
   },
   computed: {
@@ -171,7 +171,14 @@ export default {
       this.$store.registerModule('payment', modulePayment)
       modulePayment.isRegistered = true
     }
-
+    this.$store.dispatch('payment/fetchService', this.serviceId)
+      .then((response) => { 
+        this.serviceInfo.serviceName = response.data.name
+        this.serviceInfo.successUrl = response.data.successRedirectUrl
+        this.serviceInfo.cancelUrl = response.data.cancelRedirectUrl
+        this.serviceInfo.markPaidUrl = response.data.markPaidRequestUrl
+      })
+      .catch(err => { console.error(err) })
     this.$store.dispatch('citizen/fetchCitizens')
       .then(() => { this.$vs.loading.close() })
       .catch(err => { console.error(err) })

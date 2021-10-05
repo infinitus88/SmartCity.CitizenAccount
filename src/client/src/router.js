@@ -114,6 +114,20 @@ const router = new Router({
                     }
                 */
         {
+          path: '/apps/payment/service-list',
+          name: 'app-service-list',
+          component: () => import('@/views/apps/payment/service-list/ServiceList.vue'),
+          meta: {
+            breadcrumb: [
+              { title: 'Home', url: '/' },
+              { title: 'Payment' },
+              { title: 'List', active: true }
+            ],
+            pageTitle: 'Service List',
+            rule: 'admin'
+          }
+        },
+        {
           path: '/apps/user/user-list',
           name: 'app-user-list',
           component: () => import('@/views/apps/user/user-list/UserList.vue'),

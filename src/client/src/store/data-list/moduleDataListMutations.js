@@ -21,6 +21,7 @@ export default {
   UPDATE_PRODUCT (state, product) {
     const productIndex = state.products.findIndex((p) => p.id === product.id)
     Object.assign(state.products[productIndex], product)
+    console.log(state.services)
   },
   REMOVE_ITEM (state, itemId) {
     const ItemIndex = state.products.findIndex((p) => p.id === itemId)

@@ -29,7 +29,7 @@ export default [
         url: '/apps/invoice',
         name: 'Invoice',
         slug: 'invoice',
-        icon: 'CreditCardIcon',
+        icon: 'FileTextIcon',
         i18n: 'Invoice'
       }
     ]
@@ -70,6 +70,19 @@ export default [
             name: 'List',
             slug: 'app-citizen-list',
             i18n: 'List'
+          }
+        ]
+      },
+      {
+        url: null,
+        name: 'Payment',
+        icon: 'CreditCardIcon',
+        rule: 'admin',
+        submenu: [
+          {
+            url: '/apps/payment/service-list',
+            name: 'Service List',
+            slug: 'app-service-list'
           }
         ]
       }

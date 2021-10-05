@@ -1,4 +1,5 @@
 export default {
   isLoading: false,
-  invoices: []
+  invoices: [],
+  services: []
 }
