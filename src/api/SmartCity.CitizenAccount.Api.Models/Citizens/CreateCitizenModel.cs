@@ -9,7 +9,9 @@ namespace SmartCity.CitizenAccount.Api.Models.Citizens
     {
         [Required]
         public string FullName { get; set; }
+
         public string PhotoUrl { get; set; }
+
         [Required]
         public string Gender { get; set; }
         [Required]
