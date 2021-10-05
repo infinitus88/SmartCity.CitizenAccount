@@ -2,7 +2,7 @@
     File Name: DragAndDrop.vue
     Description: Drag and Drop (third-party) - Imports page portions
     ----------------------------------------------------------------------------------------
-    Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
+    Item Name: Vuexy - Vuejs Styles
       Author: Pixinvent
     Author URL: http://www.themeforest.net/user/pixinvent
 ========================================================================================== -->

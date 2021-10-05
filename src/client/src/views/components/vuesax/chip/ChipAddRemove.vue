@@ -2,7 +2,7 @@
     File Name: ChipAddRemove.vue
     Description: Add and Remove chips using vs-chips
     ----------------------------------------------------------------------------------------
-    Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
+    Item Name: Vuexy - Vuejs Styles
       Author: Pixinvent
     Author URL: http://www.themeforest.net/user/pixinvent
 ========================================================================================== -->

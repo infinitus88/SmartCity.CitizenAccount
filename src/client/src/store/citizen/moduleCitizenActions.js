@@ -13,7 +13,7 @@ export default {
           commit('SET_LOADING', false)
           resolve(response)
         })
-        .catch((error) => { reject(error) })
+        .catch((error) => { reject(error.response.data) })
     })
   },
 
@@ -24,7 +24,7 @@ export default {
         .then((response) => {
           resolve(response)
         })
-        .catch((error) => { reject(error) })
+        .catch((error) => { reject(error.response.data) })
     })
   },
 
@@ -36,7 +36,7 @@ export default {
           commit('REMOVE_RECORD', userId)
           resolve(response)
         })
-        .catch((error) => { reject(error) })
+        .catch((error) => { reject(error.response.data) })
     })
   }
 }

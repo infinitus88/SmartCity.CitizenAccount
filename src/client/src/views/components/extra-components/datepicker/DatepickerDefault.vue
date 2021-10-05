@@ -2,7 +2,7 @@
     File Name: DatePickerDefault.vue
     Description: A simple Vue.js datepicker component. Supports disabling of dates, inline mode, translations
     ----------------------------------------------------------------------------------------
-    Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
+    Item Name: Vuexy - Vuejs Styles
       Author: Pixinvent
     Author URL: http://www.themeforest.net/user/pixinvent
 ========================================================================================== -->

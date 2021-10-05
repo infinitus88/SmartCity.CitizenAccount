@@ -9,7 +9,7 @@ export default {
   //         commit('ADD_ITEM', Object.assign(item, {id: response.data.id}))
   //         resolve(response)
   //       })
-  //       .catch((error) => { reject(error) })
+  //       .catch((error) => { reject(error.response.data) })
   //   })
   // },
   fetchUsers ({ commit }) {
@@ -19,7 +19,7 @@ export default {
           commit('SET_USERS', response.data)
           resolve(response)
         })
-        .catch((error) => { reject(error) })
+        .catch((error) => { reject(error.response.data) })
     })
   },
   fetchUser (context, userId) {
@@ -28,7 +28,7 @@ export default {
         .then((response) => {
           resolve(response)
         })
-        .catch((error) => { reject(error) })
+        .catch((error) => { reject(error.response.data) })
     })
   },
   updateUser ({ commit }, payload) {
@@ -42,7 +42,7 @@ export default {
           commit('SET_LOADING', false)
           resolve(response)
         })
-        .catch((error) => { reject(error) })
+        .catch((error) => { reject(error.response.data) })
     })
   },
   removeRecord ({ commit }, userId) {
@@ -54,7 +54,7 @@ export default {
           commit('SET_LOADING', false)
           resolve(response)
         })
-        .catch((error) => { reject(error) })
+        .catch((error) => { reject(error.response.data) })
     })
   },
   removeRecords ({ commit }, userIds) {
@@ -66,7 +66,7 @@ export default {
           commit('SET_LOADING', false)
           resolve(response)
         })
-        .catch((error) => { reject(error) })
+        .catch((error) => { reject(error.response.data) })
     })
   },
 
@@ -80,7 +80,7 @@ export default {
           commit('SET_LOADING', false)
           resolve(response)
         })
-        .catch((error) => { reject(error) })
+        .catch((error) => { reject(error.response.data) })
     })
   },
 
@@ -93,7 +93,7 @@ export default {
           commit('SET_LOADING', false)
           resolve(response)
         })
-        .catch((error) => { reject(error) })
+        .catch((error) => { reject(error.response.data) })
     })
   },
 
@@ -106,7 +106,7 @@ export default {
           commit('SET_LOADING', false)
           resolve(response)
         })
-        .catch((error) => { reject(error) })
+        .catch((error) => { reject(error.response.data) })
     })
   }
 }

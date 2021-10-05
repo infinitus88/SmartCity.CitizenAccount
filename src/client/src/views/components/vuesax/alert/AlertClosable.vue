@@ -2,7 +2,7 @@
     File Name: AlertClosable.vue
     Description: Create closable alert
     ----------------------------------------------------------------------------------------
-    Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
+    Item Name: Vuexy - Vuejs Styles
       Author: Pixinvent
     Author URL: http://www.themeforest.net/user/pixinvent
 ========================================================================================== -->

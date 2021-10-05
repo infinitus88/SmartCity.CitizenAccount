@@ -23,7 +23,7 @@ export default {
       payload.notify({
         time: 8800,
         title: 'Error',
-        text: err.message,
+        text: err.response.data.message,
         iconPack: 'feather',
         icon: 'icon-alert-circle',
         color: 'danger'
@@ -59,7 +59,7 @@ export default {
           }
 
         })
-        .catch(error => { reject(error) })
+        .catch(error => { reject(error.response.data) })
     })
   },
   registerUserJWT ({ commit }, payload) {
@@ -85,7 +85,7 @@ export default {
 
           resolve(response)
         })
-        .catch(error => { reject(error) })
+        .catch(error => { reject(error.response.data) })
     })
   },
 

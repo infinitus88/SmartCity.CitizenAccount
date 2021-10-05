@@ -2,7 +2,7 @@
     File Name: TextareaHeight.vue
     Description: Set height of textarea
     ----------------------------------------------------------------------------------------
-    Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
+    Item Name: Vuexy - Vuejs Styles
       Author: Pixinvent
     Author URL: http://www.themeforest.net/user/pixinvent
 ========================================================================================== -->

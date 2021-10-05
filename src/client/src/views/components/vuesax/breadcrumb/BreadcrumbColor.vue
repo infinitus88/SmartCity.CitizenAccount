@@ -2,7 +2,7 @@
   File Name: BreadcrumbColor.vue
   Description: Change the color of active link in breadcrumb
   ----------------------------------------------------------------------------------------
-  Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
+  Item Name: Vuexy - Vuejs Styles
   Author: Pixinvent
   Author URL: http://www.themeforest.net/user/pixinvent
 ========================================================================================== -->

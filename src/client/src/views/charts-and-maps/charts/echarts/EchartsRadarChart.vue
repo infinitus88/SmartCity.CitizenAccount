@@ -2,7 +2,7 @@
   File Name: EchartsRadarChart.vue
   Description: Create Radar chart
   ----------------------------------------------------------------------------------------
-  Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
+  Item Name: Vuexy - Vuejs Styles
   Author: Pixinvent
   Author URL: http://www.themeforest.net/user/pixinvent
 ========================================================================================== -->

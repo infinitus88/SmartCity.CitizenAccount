@@ -2,7 +2,7 @@
   File Name: CarouselVirtualSlides.vue
   Description: Carousel with virtual slides
   ----------------------------------------------------------------------------------------
-  Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
+  Item Name: Vuexy - Vuejs Styles
   Author: Pixinvent
   Author URL: http://www.themeforest.net/user/pixinvent
 ========================================================================================== -->

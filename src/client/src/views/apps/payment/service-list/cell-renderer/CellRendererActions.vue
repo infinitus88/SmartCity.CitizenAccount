@@ -29,14 +29,12 @@ export default {
       })
     },
     deleteRecord () {
-      this.showDeleteSuccess()
       console.log(this)
-      // this.$store.dispatch('payment/removeService', this.params.data.id)
-      //   .then(()   => { 
-      //     this.showDeleteSuccess() 
-          
-      //   })
-      //   .catch(err => { console.error(err)       })
+      this.$store.dispatch('payment/removeService', this.params.data.id)
+        .then(()   => { 
+          this.showDeleteSuccess()     
+        })
+        .catch(err => { console.error(err)       })
     },
     showDeleteSuccess () {
       this.$vs.notify({

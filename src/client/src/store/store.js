@@ -2,7 +2,7 @@
   File Name: store.js
   Description: Vuex store
   ----------------------------------------------------------------------------------------
-  Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
+  Item Name: Vuexy - Vuejs Styles
   Author: Pixinvent
   Author URL: http://www.themeforest.net/user/pixinvent
 ==========================================================================================*/
@@ -23,7 +23,7 @@ Vue.use(Vuex)
 // import moduleChat from './chat/moduleChat.js'
 // import moduleEmail from './email/moduleEmail.js'
 import moduleAuth from './auth/moduleAuth.js'
-import moduleUser from './user/moduleUser.js'
+// import moduleUser from './user/moduleUser.js'
 
 
 export default new Vuex.Store({

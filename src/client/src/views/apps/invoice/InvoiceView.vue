@@ -29,7 +29,7 @@
             <!-- INVOICE METADATA -->
             <div class="vx-row leading-loose p-base">
                 <div class="vx-col w-1/2 mt-base">
-                    <img src="@/assets/images/logo/logo.png" alt="vuexy-logo">
+                    <img :src="invoice_data.serviceImage" alt="service-logo">
                 </div>
                 <div class="vx-col w-1/2 text-right">
                     <h1>Invoice</h1>

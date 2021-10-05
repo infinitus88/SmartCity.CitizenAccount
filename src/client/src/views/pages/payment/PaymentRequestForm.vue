@@ -37,7 +37,7 @@
                 <div class="clearfix">
                   <div class="mt-4">
                     <label class="vs-input--label">CitizenId</label>
-                    <v-select name="citizen" v-model="selectedCitizenId" :options="citizens" label="fullName" placeholder="Select Citizen">
+                    <v-select name="citizen" v-model="selectedCitizen" :options="citizens" label="fullName" placeholder="Select Citizen">
                       <template v-slot:option="citizen">
                         <vs-avatar class="" :src="citizen.photoUrl" size="small"></vs-avatar>
                         {{ citizen.fullName }}
@@ -91,7 +91,7 @@ export default {
   data () {
     return {
       fullName: 'Enter CitizenId',
-      selectedCitizenId: '',
+      selectedCitizen: null,
       amount: this.$route.query.amount,
       orderId: this.$route.query.orderId,
       serviceId: this.$route.query.serviceId,
@@ -121,35 +121,39 @@ export default {
     },
     proceedPayment () {
       this.$vs.loading()
-
+      console.log(this)
       const payload = {
-        citizenId: this.selectedCitizenId,
+        citizenId: this.selectedCitizen.id,
         amount: parseFloat(this.amount),
         serviceId: parseInt(this.serviceId),
         category: this.category
       }
-      // this.$store.dispatch('payment/proceedPayment', payload)
-      //   .then(() => {
-      //     this.$vs.loading.close() 
-      //     this.$vs.notify({
-      //       title: 'Success',
-      //       text: 'Payment was successful',
-      //       iconPack: 'feather',
-      //       icon: 'icon-alert-circle',
-      //       color: 'success'
-      //     })
-      //   })
-      //   .catch(error => {
-      //     this.$vs.loading.close()
-      //     this.$vs.notify({
-      //       title: 'Error',
-      //       text: error.message,
-      //       iconPack: 'feather',
-      //       icon: 'icon-alert-circle',
-      //       color: 'danger'
-      //     })
-      //   })
-      this.redirectToSuccessPage()
+
+      this.$store.dispatch('payment/proceedPayment', payload)
+        .then(() => {
+          this.$vs.loading.close() 
+          this.$vs.notify({
+            title: 'Success',
+            text: 'Payment was successful',
+            iconPack: 'feather',
+            icon: 'icon-alert-circle',
+            color: 'success'
+          })
+          this.$store.dispatch('payment/sendPaymentResult', { markPaidUrl: this.serviceInfo.markPaidUrl, orderId: parseInt(this.orderId) })
+          this.redirectToSuccessPage()
+        })
+        .catch(error => {
+          console.log(error)
+          this.$vs.loading.close()
+          this.$vs.notify({
+            title: 'Error',
+            text: error.message,
+            iconPack: 'feather',
+            icon: 'icon-alert-circle',
+            color: 'danger'
+          })
+        })
+      // this.redirectToSuccessPage()
     }
   },
   computed: {
@@ -179,6 +183,7 @@ export default {
         this.serviceInfo.markPaidUrl = response.data.markPaidRequestUrl
       })
       .catch(err => { console.error(err) })
+
     this.$store.dispatch('citizen/fetchCitizens')
       .then(() => { this.$vs.loading.close() })
       .catch(err => { console.error(err) })

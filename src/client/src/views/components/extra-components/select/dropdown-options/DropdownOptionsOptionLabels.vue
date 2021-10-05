@@ -2,7 +2,7 @@
     File Name: DropdownOptionsOptionLabels.vue
     Description: When option array have objects pass lable prop
     ----------------------------------------------------------------------------------------
-    Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
+    Item Name: Vuexy - Vuejs Styles
       Author: Pixinvent
     Author URL: http://www.themeforest.net/user/pixinvent
 ========================================================================================== -->

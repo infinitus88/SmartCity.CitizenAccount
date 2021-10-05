@@ -2,7 +2,7 @@
     File Name: SidebarCustom.vue
     Description: Rendering of custom sidebar with vx-sidebar(replaces vs-sidebar-item) and vx-sidebar-group(vs-sidebar-group)
     ----------------------------------------------------------------------------------------
-    Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
+    Item Name: Vuexy - Vuejs Styles
       Author: Pixinvent
     Author URL: http://www.themeforest.net/user/pixinvent
 ========================================================================================== -->

@@ -2,7 +2,7 @@
     File Name: BreadcrumbSlot.vue
     Description: Breadcrumb with slot to get more control over breadcrumb
     ----------------------------------------------------------------------------------------
-    Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
+    Item Name: Vuexy - Vuejs Styles
       Author: Pixinvent
     Author URL: http://www.themeforest.net/user/pixinvent
 ========================================================================================== -->

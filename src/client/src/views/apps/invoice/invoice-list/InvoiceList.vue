@@ -174,6 +174,7 @@ export default {
     }
   },
   created () {
+    this.$vs.loading()
     if (!modulePayment.isRegistered) {
       this.$store.registerModule('payment', modulePayment)
       modulePayment.isRegistered = true
@@ -184,7 +185,11 @@ export default {
     }
 
     this.$store.dispatch('user/fetchVerificationStatus')
-    this.$store.dispatch('payment/fetchInvoices').then(() => { this.isMounted = true })
+    this.$store.dispatch('payment/fetchInvoices')
+      .then(() => { 
+        this.isMounted = true
+        this.$vs.loading.close()
+      })
   },
   mounted () {
     // this.isMounted = true

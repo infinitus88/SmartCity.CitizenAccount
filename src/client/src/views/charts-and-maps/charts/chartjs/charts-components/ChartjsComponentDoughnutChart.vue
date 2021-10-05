@@ -2,7 +2,7 @@
   File Name: ChartjsComponentDoughnutChart.vue
   Description: Chartjs component - Doughnut Chart
   ----------------------------------------------------------------------------------------
-  Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
+  Item Name: Vuexy - Vuejs Styles
   Author: Pixinvent
   Author URL: http://www.themeforest.net/user/pixinvent
 ========================================================================================== -->

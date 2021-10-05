@@ -57,7 +57,7 @@
     </component>
 
     <div class="flex flex-wrap items-center p-6" slot="footer">
-      <vs-button class="mr-6" @click="submitData" :disabled="!isFormValid">Submit</vs-button>
+      <vs-button class="mr-6" @click.prevent="submitData" :disabled="!isFormValid">Submit</vs-button>
       <vs-button type="border" color="danger" @click="isSidebarActiveLocal = false">Cancel</vs-button>
     </div>
   </vs-sidebar>
@@ -165,7 +165,9 @@ export default {
           .catch(err => { console.error(err) })
       } else {
         delete payload.id
-        this.$store.dispatch('payment/addService', payload).catch(err => { console.error(err) })
+        this.$store.dispatch('payment/addService', payload)
+          .then(() => { this.$parent.gridApi.redrawRows() })
+          .catch(err => { console.error(err) })
       }
 
       this.$emit('closeSidebar')

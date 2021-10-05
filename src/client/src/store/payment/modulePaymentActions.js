@@ -10,7 +10,7 @@ export default {
           commit('SET_INVOICES', response.data)
           resolve(response)
         })
-        .catch((error) => { reject(error) })
+        .catch((error) => { reject(error.response.data) })
     })
   },
   fetchInvoice (context, invoiceId) {
@@ -19,7 +19,7 @@ export default {
         .then((response) => {
           resolve(response)
         })
-        .catch((error) => { reject(error) })
+        .catch((error) => { reject(error.response.data) })
     })
   },
 
@@ -31,7 +31,7 @@ export default {
           commit('SET_SERVICES', response.data)
           resolve(response)
         })
-        .catch((error) => { reject(error) })
+        .catch((error) => { reject(error.response.data) })
     })
   },
   fetchService (context, serviceId) {
@@ -40,7 +40,7 @@ export default {
         .then((response) => {
           resolve(response)
         })
-        .catch((error) => { reject(error) })
+        .catch((error) => { reject(error.response.data) })
     })
   },
 
@@ -48,10 +48,10 @@ export default {
     return new Promise((resolve, reject) => {
       axios.post('/api/payment/add-service', payload)
         .then((response) => {
-          commit('ADD_SERVICE', response)
+          commit('ADD_SERVICE', payload)
           resolve(response)
         })
-        .catch((error) => { reject(error) })
+        .catch((error) => { reject(error.response.data) })
     })
   },
 
@@ -64,7 +64,7 @@ export default {
           commit('UPDATE_SERVICE', response.data)
           resolve(response)
         })
-        .catch((error) => { reject(error) })
+        .catch((error) => { reject(error.response.data) })
     })
   },
 
@@ -75,7 +75,7 @@ export default {
           commit('REMOVE_SERVICE', serviceId)
           resolve(response)
         })
-        .catch((error) => { reject(error) })
+        .catch((error) => { reject(error.response.data) })
     })
   },
 
@@ -86,7 +86,20 @@ export default {
         .then((response) => {
           resolve(response)
         })
-        .catch((error) => { reject(error) })
+        .catch((error) => { reject(error.response.data) })
+    })
+  },
+
+  sendPaymentResult (context, payload) {
+    return new Promise((resolve, reject) => {
+      console.log(payload)
+      const markPaidUrl = payload.markPaidUrl
+      delete payload.markPaidUrl
+      axios.post('', payload, { baseURL: markPaidUrl })
+        .then((response) => {
+          resolve(response)
+        })
+        .catch((error) => { reject(error.response.data) })
     })
   },
 
@@ -101,7 +114,7 @@ export default {
           commit('SET_LOADING', false)
           resolve(response)
         })
-        .catch((error) => { reject(error) })
+        .catch((error) => { reject(error.response.data) })
     })
   }
 }

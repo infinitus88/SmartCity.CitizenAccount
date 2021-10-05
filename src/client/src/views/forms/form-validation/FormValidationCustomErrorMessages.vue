@@ -2,7 +2,7 @@
   File Name: FormValidationCustomErrorMessages.vue
   Description: Dispalying custom error messages as error
   ----------------------------------------------------------------------------------------
-  Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
+  Item Name: Vuexy - Vuejs Styles
   Author: Pixinvent
   Author URL: http://www.themeforest.net/user/pixinvent
 ========================================================================================== -->
