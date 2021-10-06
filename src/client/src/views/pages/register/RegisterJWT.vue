@@ -20,7 +20,7 @@
       v-model="email"
       class="w-full mt-6" />
     <span class="text-danger text-sm">{{ errors.first('email') }}</span>
-
+    
     <vs-input
       ref="password"
       type="password"

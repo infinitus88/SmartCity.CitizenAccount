@@ -41,7 +41,8 @@
                         <p>{{ invoice_data.creationDate | date(true) }}</p>
                     </div>
                 </div>
-                <div class="vx-col w-1/2 mt-12">
+                <template v-if="invoice_data.invoiceType == 'gain'">
+                  <div class="vx-col w-1/2 mt-12">
                     <h5>Recipient</h5>
                     <div class="invoice__recipient-info my-4">
                         <p>{{ invoice_data.citizenName }}</p>
@@ -53,16 +54,42 @@
                             <span class="ml-2">{{ getActiveUser.email }}</span>
                         </p>
                     </div>
-                </div>
-                <div class="vx-col w-1/2 mt-base text-right mt-12">
-                    <h5>{{ invoice_data.serviceName }}</h5>
-                    <div class="invoice__company-contact">
-                        <p class="mt-4 flex items-center justify-end">
+                  </div>
+                  <div class="vx-col w-1/2 mt-base text-right mt-12">
+                      <h5>{{ invoice_data.serviceName }}</h5>
+                      <div class="invoice__company-contact">
+                          <p class="mt-4 flex items-center justify-end">
+                              <feather-icon icon="MailIcon" svgClasses="h-4 w-4"></feather-icon>
+                              <span class="ml-2">{{ invoice_data.serviceEmail }}</span>
+                          </p>
+                      </div>
+                  </div>
+                </template>
+
+                <template v-else-if="invoice_data.invoiceType == 'expense'">
+                  <div class="vx-col w-1/2 mt-12">
+                    <h5>Recipient</h5>
+                    <div class="invoice__recipient-info my-4">
+                        <p>{{ invoice_data.serviceName }}</p>
+
+                    </div>
+                    <div class="invoice__recipient-contact ">
+                        <p class="flex items-center">
                             <feather-icon icon="MailIcon" svgClasses="h-4 w-4"></feather-icon>
                             <span class="ml-2">{{ invoice_data.serviceEmail }}</span>
                         </p>
                     </div>
-                </div>
+                  </div>
+                  <div class="vx-col w-1/2 mt-base text-right mt-12">
+                      <h5>{{ invoice_data.citizenName }}</h5>
+                      <div class="invoice__company-contact">
+                          <p class="mt-4 flex items-center justify-end">
+                              <feather-icon icon="MailIcon" svgClasses="h-4 w-4"></feather-icon>
+                              <span class="ml-2">{{ getActiveUser.email }}</span>
+                          </p>
+                      </div>
+                  </div>
+                </template>
             </div>
 
             <!-- INVOICE CONTENT -->
@@ -133,7 +160,8 @@ export default{
 
     const invoiceId = this.$route.params.invoiceId
     this.$store.dispatch('payment/fetchInvoice', invoiceId)
-      .then(res => { this.invoice_data = res.data })
+      .then(res => { this.invoice_data = res.data
+      console.log(this.invoice_data) })
       .catch(err => {
         if (err.response.status === 404) {
           this.invoice_not_found = true

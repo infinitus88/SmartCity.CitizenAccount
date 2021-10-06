@@ -92,6 +92,7 @@ export default {
       this.name = this.$store.state.AppActiveUser.displayName
     },
     updateUserInfo () {
+      console.log('dafadsf')
       const payload = {
         displayName: this.name,
         photoUrl: this.activeUserInfo.photoUrl

@@ -38,5 +38,16 @@ export default {
         })
         .catch((error) => { reject(error.response.data) })
     })
+  },
+
+  // Register marriage
+  registerMarriage (context, payload) {
+    return new Promise((resolve, reject) => {
+      axios.post('', payload, { baseURL: 'https://cityadministration20210925021624.azurewebsites.net/api/marital/registratemarriage' })
+        .then((response) => {
+          resolve(response)
+        })
+        .catch((err) => { reject(err.response.data) })
+    })
   }
 }
