@@ -3,12 +3,7 @@
 namespace SmartCity.CitizenAccount.Api.Models.Users
 {
     public class UpdateUserModel
-    {
-        public UpdateUserModel()
-        {
-            Role = "user";
-        }
-
+    { 
         [Required]
         public string DisplayName { get; set; }
 

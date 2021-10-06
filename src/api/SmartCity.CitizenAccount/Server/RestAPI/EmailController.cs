@@ -53,6 +53,14 @@ namespace SmartCity.CitizenAccount.Server.RestAPI
             return emailsMeta;
         }
 
+        [HttpPost("send-mail-service/{id}")]
+        public async Task<EmailModel> SendMailService(int id, [FromBody] CreateEmailModel model)
+        {
+            var mail = await _service.CreateFromService(id, model);
+
+            return _mapper.Map<EmailModel>(mail);
+        }
+
         [HttpGet("all-mails")]
         public IQueryable<Email> GetAllMails()
         {

@@ -49,15 +49,7 @@ namespace SmartCity.CitizenAccount.Server.RestAPI
         {
             var invoice = await _service.CreateExpenseInvoice(model);
 
-
-
             return new PaymentResultModel { Amount = invoice.Amount, IsSucceed = true };
-        }
-
-        [HttpPost("mark-paid")]
-        public IActionResult TestMethod([FromBody] MarkPaidModel model)
-        {
-            return Ok();
         }
 
         [HttpPost("give-benefits")]

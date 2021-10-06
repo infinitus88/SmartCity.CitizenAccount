@@ -12,6 +12,7 @@ namespace SmartCity.CitizenAccount.Services.EmailsAppService
         IQueryable<Email> GetAll();
         IQueryable<Email> GetRelated();
         EmailsMetaModel GetMeta();
+        Task<Email> CreateFromService(int serviceId, CreateEmailModel model);
         Task<Email> Create(CreateEmailModel model);
         Task<Email> UpdateFolder(int id, string folderName);
         Task<Email> SetStarred(int id, bool value);

@@ -70,7 +70,7 @@ namespace SmartCity.CitizenAccount.Services.UserAppService
         public async Task<User> Update(int id, UpdateUserModel model)
         {
             var user = GetQuery().FirstOrDefault(x => x.Id == id);
-            var updateModel = _mapper.Map<User>(model);
+
             if (user == null)
             {
                 throw new NotFoundException("User is not found");
@@ -81,7 +81,7 @@ namespace SmartCity.CitizenAccount.Services.UserAppService
             //    throw new BadRequestException("The email is already in use");
             //}
 
-            _mapper.Map(user, updateModel);
+            _mapper.Map(model, user);
             await _repository.SaveAsync();
 
             return user;

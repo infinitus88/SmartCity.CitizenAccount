@@ -8,6 +8,7 @@ using SmartCity.CitizenAccount.Data.Models;
 using SmartCity.CitizenAccount.Maps;
 using SmartCity.CitizenAccount.Security;
 using SmartCity.CitizenAccount.Services.EmailsAppService;
+using SmartCity.CitizenAccount.Services.PaymentAppService;
 using SmartCity.CitizenAccount.Services.UserAppService;
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,7 @@ namespace SmartCity.CitizenAccount.Services.Tests
         private IEmailsService _service;
         private Random _random;
         private Mock<IUsersService> _userService;
+        private Mock<IPaymentService> _paymentService;
         private Mock<ISecurityContext> _context;
 
         public EmailServiceTests()
@@ -41,9 +43,11 @@ namespace SmartCity.CitizenAccount.Services.Tests
             _userService = new Mock<IUsersService>();
             _userService.Setup(x => x.Get()).Returns(() => _userList.AsQueryable());
 
+            _paymentService = new Mock<IPaymentService>();
+
             _context = new Mock<ISecurityContext>(MockBehavior.Strict);
 
-            _service = new EmailService(_repository.Object, _userService.Object, _context.Object);
+            _service = new EmailService(_repository.Object, _userService.Object, _paymentService.Object, _context.Object);
         }
 
         [Fact]

@@ -41,9 +41,12 @@ namespace SmartCity.CitizenAccount.Maps
                 .ForMember(dst => dst.Status, opt => opt.MapFrom(src => src.Status.ToDescriptionString()));
             CreateMap<CreateUserModel, User>().AfterMap<TrimAllStringProperties>();
             CreateMap<UserModel, UpdateUserModel>();
+            CreateMap<UpdateUserInfoModel, User>()
+                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
             CreateMap<UpdateUserModel, User>()
                 .ForMember(dst => dst.Id, opt => opt.Ignore())
-                .ForMember(dst => dst.Status, opt => opt.MapFrom(src => (Status)Enum.Parse(typeof(Status), src.Status.Capitalize())));
+                .ForMember(dst => dst.Status, opt => opt.MapFrom(src => (Status)Enum.Parse(typeof(Status), src.Status.Capitalize())))
+                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
             // VerificationRequest
             CreateMap<UpdateVerificationRequestModel, VerificationRequest>()
@@ -72,6 +75,7 @@ namespace SmartCity.CitizenAccount.Maps
                 .ForMember(dst => dst.InvoiceType, opt => opt.MapFrom(src => src.InvoiceType.ToDescriptionString()));
 
             CreateMap<Invoice, InvoiceDetailModel>()
+                .ForMember(dst => dst.InvoiceType, opt => opt.MapFrom(src => src.InvoiceType.ToDescriptionString()))
                 .ForMember(dst => dst.CitizenName, opt => opt.MapFrom(src => src.Citizen.FullName))
                 .ForMember(dst => dst.ServiceEmail, opt => opt.MapFrom(src => src.Service.Email))
                 .ForMember(dst => dst.ServiceName, opt => opt.MapFrom(src => src.Service.Name))
